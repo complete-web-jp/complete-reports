@@ -225,6 +225,33 @@ button { font-family: inherit; cursor: pointer; }
   padding: 14px 16px;
 }
 
+/* Inline variant: when placed inside the right column of main-grid (above Major FX row) */
+.summary-strip-inline {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.summary-strip-inline .summary-inner {
+  grid-template-columns: 1fr 320px 240px;
+  gap: 14px;
+}
+
+@media (max-width: 1500px) {
+  .summary-strip-inline .summary-inner {
+    grid-template-columns: 1fr 280px 220px;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .summary-strip-inline .summary-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
 .summary-inner {
   max-width: 1920px;
   margin: 0 auto;
@@ -1247,6 +1274,75 @@ button { font-family: inherit; cursor: pointer; }
       </div>
     </div>
 
+    <!-- ============ DAILY SUMMARY (inline in right column, above Major FX) ============ -->
+    <div class="summary-strip summary-strip-inline">
+      <div class="summary-inner">
+        <!-- AI Takeaway -->
+        <div class="summary-takeaway">
+          <h3>🎀 わたしの本日のテイクアウェイ <span class="by">— あい / AI Secretary</span></h3>
+          <div class="summary-takeaway-body" id="ai-takeaway">
+            <strong>USD/JPYは158円台で4日続落から再反発局面</strong>、米イラン戦闘長期化による中東リスクと、加速する米インフレを背景にドル買い基調。
+            4月30日に<strong>160.72</strong>付近で財務省が約2年ぶり（前回は2024年7月）に<strong>5兆円規模の円買い介入</strong>を実施、一時155.50円付近まで急落。
+            その後5月GW期間に複数回の追加介入観測（4回目に到達との報道）があり、市場では<strong>防衛ラインが160→157円に引き上げられた</strong>との見方が広がる。
+            本日は東京タイムのドル需要、ロンドン以降の米インフレ織り込み修正と、トランプ大統領の中東関連発言、片山財務相の口先介入に要注意。
+            <strong>戦略</strong>は157円ライン手前の戻り売り優位、158円突破時は介入警戒で押し目買い慎重に。
+          </div>
+          <div class="summary-takeaway-meta">
+            <span>中東戦闘長期化</span>
+            <span>米インフレ加速</span>
+            <span>防衛ライン160→157円</span>
+            <span>4回介入観測</span>
+          </div>
+        </div>
+
+        <!-- Hawk/Dove Gauges -->
+        <div class="gauge-panel">
+          <div class="gauge-panel-title">中央銀行スタンス / Central Bank Stance</div>
+          <div class="gauge">
+            <div class="gauge-head">
+              <span class="name">FED 🇺🇸</span>
+              <span class="verdict hawk">やや<b>タカ派</b></span>
+            </div>
+            <div class="gauge-bar"><div class="gauge-marker" style="left: 70%;"></div></div>
+            <div class="gauge-labels"><span>ハト派</span><span>中立</span><span>タカ派</span></div>
+          </div>
+          <div class="gauge">
+            <div class="gauge-head">
+              <span class="name">BOJ 🇯🇵</span>
+              <span class="verdict neutral">中立寄り<b>ハト派</b></span>
+            </div>
+            <div class="gauge-bar"><div class="gauge-marker" style="left: 32%;"></div></div>
+            <div class="gauge-labels"><span>ハト派</span><span>中立</span><span>タカ派</span></div>
+          </div>
+          <div class="gauge">
+            <div class="gauge-head">
+              <span class="name">ECB 🇪🇺</span>
+              <span class="verdict neutral">中立</span>
+            </div>
+            <div class="gauge-bar"><div class="gauge-marker" style="left: 50%;"></div></div>
+            <div class="gauge-labels"><span>ハト派</span><span>中立</span><span>タカ派</span></div>
+          </div>
+        </div>
+
+        <!-- Risk + Key levels -->
+        <div class="summary-side">
+          <div class="risk-indicator">
+            <span class="risk-label">市場ムード</span>
+            <span class="risk-pill off">Risk-Off 寄り</span>
+          </div>
+          <div class="risk-indicator">
+            <span class="risk-label">ドル基調</span>
+            <span class="risk-pill on">強含み</span>
+          </div>
+          <div class="key-levels-mini">
+            <div>📌 USD/JPY 注視水準</div>
+            <div>抵抗: <strong>160.72</strong>（4/30介入）/ <strong>161.95</strong>（2024介入）</div>
+            <div>支持: <strong>157.00</strong>（新防衛線）/ <strong>155.50</strong>（介入到達）</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Mini cards: Major FX | US Macro | JP & Oil -->
     <div class="mini-grid-3col">
       <!-- 主要為替 -->
@@ -1399,75 +1495,6 @@ button { font-family: inherit; cursor: pointer; }
       </div>
     </div>
 
-  </div>
-</div>
-
-<!-- ============ DAILY SUMMARY (moved to bottom: 1日1回チェック想定) ============ -->
-<div class="summary-strip">
-  <div class="summary-inner">
-    <!-- AI Takeaway -->
-    <div class="summary-takeaway">
-      <h3>🎀 わたしの本日のテイクアウェイ <span class="by">— あい / AI Secretary</span></h3>
-      <div class="summary-takeaway-body" id="ai-takeaway">
-        <strong>USD/JPYは158円台で4日続落から再反発局面</strong>、米イラン戦闘長期化による中東リスクと、加速する米インフレを背景にドル買い基調。
-        4月30日に<strong>160.72</strong>付近で財務省が約2年ぶり（前回は2024年7月）に<strong>5兆円規模の円買い介入</strong>を実施、一時155.50円付近まで急落。
-        その後5月GW期間に複数回の追加介入観測（4回目に到達との報道）があり、市場では<strong>防衛ラインが160→157円に引き上げられた</strong>との見方が広がる。
-        本日は東京タイムのドル需要、ロンドン以降の米インフレ織り込み修正と、トランプ大統領の中東関連発言、片山財務相の口先介入に要注意。
-        <strong>戦略</strong>は157円ライン手前の戻り売り優位、158円突破時は介入警戒で押し目買い慎重に。
-      </div>
-      <div class="summary-takeaway-meta">
-        <span>中東戦闘長期化</span>
-        <span>米インフレ加速</span>
-        <span>防衛ライン160→157円</span>
-        <span>4回介入観測</span>
-      </div>
-    </div>
-
-    <!-- Hawk/Dove Gauges -->
-    <div class="gauge-panel">
-      <div class="gauge-panel-title">中央銀行スタンス / Central Bank Stance</div>
-      <div class="gauge">
-        <div class="gauge-head">
-          <span class="name">FED 🇺🇸</span>
-          <span class="verdict hawk">やや<b>タカ派</b></span>
-        </div>
-        <div class="gauge-bar"><div class="gauge-marker" style="left: 70%;"></div></div>
-        <div class="gauge-labels"><span>ハト派</span><span>中立</span><span>タカ派</span></div>
-      </div>
-      <div class="gauge">
-        <div class="gauge-head">
-          <span class="name">BOJ 🇯🇵</span>
-          <span class="verdict neutral">中立寄り<b>ハト派</b></span>
-        </div>
-        <div class="gauge-bar"><div class="gauge-marker" style="left: 32%;"></div></div>
-        <div class="gauge-labels"><span>ハト派</span><span>中立</span><span>タカ派</span></div>
-      </div>
-      <div class="gauge">
-        <div class="gauge-head">
-          <span class="name">ECB 🇪🇺</span>
-          <span class="verdict neutral">中立</span>
-        </div>
-        <div class="gauge-bar"><div class="gauge-marker" style="left: 50%;"></div></div>
-        <div class="gauge-labels"><span>ハト派</span><span>中立</span><span>タカ派</span></div>
-      </div>
-    </div>
-
-    <!-- Risk + Key levels -->
-    <div class="summary-side">
-      <div class="risk-indicator">
-        <span class="risk-label">市場ムード</span>
-        <span class="risk-pill off">Risk-Off 寄り</span>
-      </div>
-      <div class="risk-indicator">
-        <span class="risk-label">ドル基調</span>
-        <span class="risk-pill on">強含み</span>
-      </div>
-      <div class="key-levels-mini">
-        <div>📌 USD/JPY 注視水準</div>
-        <div>抵抗: <strong>160.72</strong>（4/30介入）/ <strong>161.95</strong>（2024介入）</div>
-        <div>支持: <strong>157.00</strong>（新防衛線）/ <strong>155.50</strong>（介入到達）</div>
-      </div>
-    </div>
   </div>
 </div>
 

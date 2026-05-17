@@ -1,0 +1,2051 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e17">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>ワールドモニター | World Monitor</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%234f8eff'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle' fill='white' font-family='system-ui' font-weight='800'%3EW%3C/text%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #0a0e17;
+  --panel: #131826;
+  --panel-2: #1a2032;
+  --panel-3: #232a3d;
+  --border: #2a3245;
+  --text: #e4e8f1;
+  --text-dim: #8a93a8;
+  --text-mid: #b8bfd0;
+  --accent: #4f8eff;
+  --accent-2: #6c5ce7;
+  --green: #26d97f;
+  --red: #ff4d6d;
+  --yellow: #ffcc4d;
+  --orange: #ff9f43;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+  font-size: 14px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { color: var(--accent); text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ===================== HEADER ===================== */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  background: linear-gradient(180deg, var(--panel) 0%, rgba(19, 24, 38, 0.95) 100%);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(79, 142, 255, 0.3);
+}
+
+.brand-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.brand-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.brand-title-en {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.brand-sub {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: var(--red);
+  padding: 2px 7px;
+  background: rgba(255, 77, 109, 0.12);
+  border: 1px solid rgba(255, 77, 109, 0.25);
+  border-radius: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.live-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--red);
+  border-radius: 50%;
+  animation: blink 1.4s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+/* Header price ticker (inline) */
+.header-prices {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 4px 0;
+}
+
+.header-prices::-webkit-scrollbar { height: 0; }
+
+.hprice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  padding: 2px 0;
+}
+
+.hprice-flag {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  background: var(--panel-2);
+  flex-shrink: 0;
+}
+
+.hprice-sym {
+  font-size: 13px;
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.hprice-val {
+  font-size: 14px;
+  font-weight: 700;
+  font-feature-settings: "tnum";
+}
+
+.hprice-chg {
+  font-size: 11px;
+  font-weight: 600;
+  font-feature-settings: "tnum";
+}
+
+.hprice-chg.up { color: var(--green); }
+.hprice-chg.down { color: var(--red); }
+
+.clocks {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.clock {
+  text-align: center;
+  padding: 4px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  min-width: 78px;
+}
+
+.clock-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  letter-spacing: 1.2px;
+  font-weight: 700;
+}
+
+.clock-time {
+  font-size: 14px;
+  font-weight: 700;
+  font-feature-settings: "tnum";
+  letter-spacing: 0.5px;
+}
+
+.clock-date {
+  font-size: 9px;
+  color: var(--text-dim);
+}
+
+/* ===================== DAILY SUMMARY (NEW) ===================== */
+.summary-strip {
+  background: linear-gradient(180deg, rgba(79, 142, 255, 0.06) 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 16px;
+}
+
+.summary-inner {
+  max-width: 1920px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 360px 280px;
+  gap: 16px;
+  align-items: stretch;
+}
+
+@media (max-width: 1200px) {
+  .summary-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.summary-takeaway {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.summary-takeaway h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-takeaway h3 .by {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.summary-takeaway-body {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--text-mid);
+}
+
+.summary-takeaway-body strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.summary-takeaway-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.summary-takeaway-meta span::before {
+  content: "●";
+  color: var(--accent);
+  margin-right: 4px;
+}
+
+/* Hawkish/Dovish gauges */
+.gauge-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gauge-panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+
+.gauge {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gauge-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.gauge-head .name { color: var(--text); }
+.gauge-head .verdict { font-size: 11px; font-weight: 600; }
+.gauge-head .verdict.hawk { color: var(--red); }
+.gauge-head .verdict.dove { color: var(--green); }
+.gauge-head .verdict.neutral { color: var(--yellow); }
+
+.gauge-bar {
+  position: relative;
+  height: 8px;
+  background: linear-gradient(90deg, #26d97f 0%, #ffcc4d 50%, #ff4d6d 100%);
+  border-radius: 4px;
+  overflow: visible;
+}
+
+.gauge-marker {
+  position: absolute;
+  top: -3px;
+  width: 4px;
+  height: 14px;
+  background: white;
+  border-radius: 2px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  transform: translateX(-50%);
+}
+
+.gauge-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--text-dim);
+}
+
+/* Risk-on/off + Key levels */
+.summary-side {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.risk-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.risk-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.risk-pill {
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 12px;
+}
+
+.risk-pill.on { background: rgba(38, 217, 127, 0.15); color: var(--green); border: 1px solid rgba(38, 217, 127, 0.3); }
+.risk-pill.off { background: rgba(255, 77, 109, 0.15); color: var(--red); border: 1px solid rgba(255, 77, 109, 0.3); }
+.risk-pill.mixed { background: rgba(255, 204, 77, 0.15); color: var(--yellow); border: 1px solid rgba(255, 204, 77, 0.3); }
+
+.key-levels-mini {
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.key-levels-mini strong {
+  color: var(--text);
+  font-feature-settings: "tnum";
+}
+
+/* ===================== TICKER TAPE ===================== */
+.ticker-tape-wrap {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 4px 0;
+}
+
+/* ===================== ALERT PANEL (NEW) ===================== */
+.alert-strip {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow-x: auto;
+}
+
+.alert-strip-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.alert-strip-list {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.alert-strip-list::-webkit-scrollbar { height: 0; }
+
+.alert-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  font-size: 11px;
+  white-space: nowrap;
+  font-feature-settings: "tnum";
+}
+
+.alert-chip.triggered {
+  background: rgba(255, 77, 109, 0.15);
+  border-color: var(--red);
+  color: var(--red);
+  animation: pulseAlert 1.2s ease-in-out infinite;
+}
+
+@keyframes pulseAlert {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(255, 77, 109, 0); }
+}
+
+.alert-chip.armed {
+  border-color: var(--accent);
+}
+
+.alert-chip-close {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 12px;
+  padding: 0 2px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.alert-chip-close:hover { color: var(--red); }
+
+.alert-add-btn {
+  padding: 4px 10px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.alert-add-btn:hover { background: #3a7ae8; }
+
+.alert-notify-btn {
+  padding: 4px 10px;
+  background: var(--panel-2);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.alert-notify-btn.granted {
+  background: rgba(38, 217, 127, 0.1);
+  color: var(--green);
+  border-color: var(--green);
+}
+
+/* ===================== MAIN GRID ===================== */
+.main-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 16px;
+  padding: 16px;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .header { padding: 8px 10px; }
+  .main-grid { padding: 10px; gap: 10px; }
+  .alert-strip { padding: 6px 10px; }
+  .summary-strip { padding: 10px; }
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* ===================== PANEL ===================== */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.panel-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(180deg, var(--panel-2) 0%, var(--panel) 100%);
+}
+
+.panel-header-en {
+  font-size: 10px;
+  color: var(--text-dim);
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.panel-header-spacer { flex: 1; }
+
+.panel-tag {
+  font-size: 9px;
+  padding: 2px 6px;
+  background: rgba(79, 142, 255, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(79, 142, 255, 0.3);
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.panel-tag.live { background: rgba(255, 77, 109, 0.15); color: var(--red); border-color: rgba(255, 77, 109, 0.3); }
+.panel-tag.auto { background: rgba(38, 217, 127, 0.15); color: var(--green); border-color: rgba(38, 217, 127, 0.3); }
+
+.panel-body { padding: 8px; }
+.panel-body-flush { padding: 0; }
+
+/* ===================== HOT NEWS ===================== */
+.hotnews-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hotnews-chip {
+  padding: 4px 10px;
+  font-size: 11px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--text-dim);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.hotnews-chip.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.hotnews-list {
+  max-height: 1100px;
+  overflow-y: auto;
+}
+
+.news-item {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.news-item:hover { background: rgba(255, 255, 255, 0.02); }
+.news-item:last-child { border-bottom: none; }
+
+.news-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 11px;
+}
+
+.news-date {
+  color: var(--text-dim);
+  font-feature-settings: "tnum";
+}
+
+.news-cat {
+  padding: 1px 7px;
+  border-radius: 3px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-size: 10px;
+}
+
+.news-cat.iran { background: rgba(255, 159, 67, 0.15); color: var(--orange); }
+.news-cat.jpy { background: rgba(79, 142, 255, 0.15); color: var(--accent); }
+.news-cat.trump { background: rgba(255, 204, 77, 0.15); color: var(--yellow); }
+.news-cat.fed { background: rgba(108, 92, 231, 0.15); color: var(--accent-2); }
+.news-cat.macro { background: rgba(38, 217, 127, 0.15); color: var(--green); }
+
+.news-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.45;
+  margin-bottom: 6px;
+  letter-spacing: 0.2px;
+}
+
+.news-snippet {
+  font-size: 12.5px;
+  color: var(--text-mid);
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.news-source {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.news-source-chip {
+  display: inline-block;
+  padding: 2px 7px;
+  background: var(--panel-2);
+  border-radius: 3px;
+  margin-right: 4px;
+  font-size: 10.5px;
+}
+
+/* ===================== FEATURED CHART ===================== */
+.chart-tabs-row {
+  display: flex;
+  gap: 12px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.chart-tabs-row::-webkit-scrollbar { height: 0; }
+
+.chart-tabs-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.chart-tabs-group-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--border);
+  margin: 0 4px;
+}
+
+.chart-tab {
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.chart-tab:hover { color: var(--text); }
+.chart-tab.active {
+  color: white;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.tv-chart-host { height: 620px; }
+.tv-chart-host iframe { border: none !important; }
+
+/* === Horizontal stats strip below the chart (replaces RSI sub-pane) === */
+.chart-stats-strip {
+  display: flex;
+  gap: 22px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--panel-2) 0%, var(--panel) 100%);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.stat-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 64px;
+}
+
+.stat-label {
+  color: var(--text-dim);
+  font-size: 9.5px;
+  letter-spacing: 1.2px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-weight: 700;
+  font-feature-settings: "tnum";
+  font-size: 14px;
+  letter-spacing: 0.2px;
+}
+
+.stat-value.up { color: var(--green); }
+.stat-value.down { color: var(--red); }
+.stat-value.dim { color: var(--text-dim); font-weight: 500; }
+
+.stat-sep {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
+}
+
+/* ===================== INTERVENTION LEVELS (NEW) ===================== */
+.iv-panel {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.iv-current {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.iv-current-label {
+  font-size: 11px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+
+.iv-current-price {
+  font-size: 18px;
+  font-weight: 800;
+  font-feature-settings: "tnum";
+}
+
+.iv-current-time {
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.iv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.iv-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 70px;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.iv-row.current-zone {
+  border-color: var(--accent);
+  background: rgba(79, 142, 255, 0.08);
+}
+
+.iv-level {
+  font-weight: 800;
+  font-feature-settings: "tnum";
+  font-size: 13px;
+}
+
+.iv-label {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.iv-label .tag {
+  font-size: 9px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.iv-label .tag.danger { background: rgba(255, 77, 109, 0.15); color: var(--red); }
+.iv-label .tag.warn { background: rgba(255, 159, 67, 0.15); color: var(--orange); }
+.iv-label .tag.support { background: rgba(38, 217, 127, 0.15); color: var(--green); }
+
+.iv-distance {
+  text-align: right;
+  font-weight: 700;
+  font-feature-settings: "tnum";
+  font-size: 12px;
+}
+
+.iv-distance.up { color: var(--green); }
+.iv-distance.down { color: var(--red); }
+
+/* ===================== MINI CARDS GRID ===================== */
+.mini-grid-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .mini-grid-3col { grid-template-columns: 1fr; }
+}
+
+.mini-panel-set {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mini-card {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  min-height: 130px;
+}
+
+/* ===================== BOTTOM TWO-COL ===================== */
+.bottom-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 1300px) {
+  .bottom-2col { grid-template-columns: 1fr; }
+}
+
+/* ===================== FOOTER ===================== */
+.footer {
+  text-align: center;
+  padding: 20px;
+  color: var(--text-dim);
+  font-size: 11px;
+  border-top: 1px solid var(--border);
+  margin-top: 16px;
+}
+
+.footer-link { color: var(--accent); margin-left: 4px; }
+
+/* ===================== MODAL ===================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-backdrop.open { display: flex; }
+
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  max-width: 420px;
+  width: calc(100% - 32px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.modal h3 {
+  font-size: 16px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.form-row label {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.form-row select,
+.form-row input {
+  padding: 8px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  font-feature-settings: "tnum";
+}
+
+.form-row input:focus,
+.form-row select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover { background: #3a7ae8; }
+
+.btn-secondary {
+  background: var(--panel-2);
+  color: var(--text-dim);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover { color: var(--text); }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  border-radius: 8px;
+  z-index: 1500;
+  max-width: 320px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  font-size: 13px;
+  display: none;
+}
+
+.toast.open { display: block; animation: toastIn 0.3s; }
+
+.toast.alert { border-left-color: var(--red); }
+
+@keyframes toastIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="header">
+  <div class="brand">
+    <div class="brand-logo">W</div>
+    <div>
+      <div class="brand-title-row">
+        <span class="brand-title">ワールドモニター</span>
+        <span class="brand-title-en">World Monitor</span>
+        <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+      </div>
+      <div class="brand-sub">FX & 株式 リアルタイム市況ダッシュボード / Real-time markets for FX & equities</div>
+    </div>
+  </div>
+  <div class="header-prices">
+    <div class="hprice">
+      <span class="hprice-flag">🇺🇸</span>
+      <span class="hprice-sym">USD/JPY</span>
+      <span class="hprice-val" id="hp-usdjpy">--.---</span>
+      <span class="hprice-chg" id="hp-usdjpy-chg">---</span>
+    </div>
+    <div class="hprice">
+      <span class="hprice-flag">🇪🇺</span>
+      <span class="hprice-sym">EUR/USD</span>
+      <span class="hprice-val" id="hp-eurusd">-.-----</span>
+      <span class="hprice-chg" id="hp-eurusd-chg">---</span>
+    </div>
+    <div class="hprice">
+      <span class="hprice-flag">🇪🇺</span>
+      <span class="hprice-sym">EUR/JPY</span>
+      <span class="hprice-val" id="hp-eurjpy">---.---</span>
+      <span class="hprice-chg" id="hp-eurjpy-chg">---</span>
+    </div>
+    <div class="hprice">
+      <span class="hprice-flag">💲</span>
+      <span class="hprice-sym">DXY</span>
+      <span class="hprice-val" id="hp-dxy">---.---</span>
+      <span class="hprice-chg" id="hp-dxy-chg">---</span>
+    </div>
+  </div>
+  <div class="clocks">
+    <div class="clock">
+      <div class="clock-label">TYO</div>
+      <div class="clock-time" id="clock-tyo">--:--:--</div>
+      <div class="clock-date" id="date-tyo">--</div>
+    </div>
+    <div class="clock">
+      <div class="clock-label">LDN</div>
+      <div class="clock-time" id="clock-ldn">--:--:--</div>
+      <div class="clock-date" id="date-ldn">--</div>
+    </div>
+    <div class="clock">
+      <div class="clock-label">NYC</div>
+      <div class="clock-time" id="clock-nyc">--:--:--</div>
+      <div class="clock-date" id="date-nyc">--</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ TICKER TAPE (moved up per user request) ============ -->
+<div class="ticker-tape-wrap">
+  <div class="tradingview-widget-container">
+    <div class="tradingview-widget-container__widget"></div>
+    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+    {
+      "symbols": [
+        {"description": "ドル円", "proName": "FX:USDJPY"},
+        {"description": "ドルインデックス", "proName": "TVC:DXY"},
+        {"description": "WTI原油", "proName": "TVC:USOIL"},
+        {"description": "ダウ先物", "proName": "CME_MINI:YM1!"},
+        {"description": "日経先物", "proName": "OSE:NK2251!"},
+        {"description": "ユーロドル", "proName": "FX:EURUSD"},
+        {"description": "ユーロ円", "proName": "FX:EURJPY"},
+        {"description": "ポンド円", "proName": "FX:GBPJPY"},
+        {"description": "ゴールド", "proName": "TVC:GOLD"},
+        {"description": "VIX", "proName": "CBOE:VIX"},
+        {"description": "米10年債", "proName": "TVC:US10Y"}
+      ],
+      "showSymbolLogo": true,
+      "isTransparent": true,
+      "displayMode": "adaptive",
+      "colorTheme": "dark",
+      "locale": "ja"
+    }
+    </script>
+  </div>
+</div>
+
+<!-- ============ DAILY SUMMARY (NEW) ============ -->
+<div class="summary-strip">
+  <div class="summary-inner">
+    <!-- AI Takeaway -->
+    <div class="summary-takeaway">
+      <h3>🎀 わたしの本日のテイクアウェイ <span class="by">— あい / AI Secretary</span></h3>
+      <div class="summary-takeaway-body" id="ai-takeaway">
+        <strong>USD/JPYは158円台で4日続落から再反発局面</strong>、米イラン戦闘長期化による中東リスクと、加速する米インフレを背景にドル買い基調。
+        4月30日に<strong>160.72</strong>付近で財務省が約2年ぶり（前回は2024年7月）に<strong>5兆円規模の円買い介入</strong>を実施、一時155.50円付近まで急落。
+        その後5月GW期間に複数回の追加介入観測（4回目に到達との報道）があり、市場では<strong>防衛ラインが160→157円に引き上げられた</strong>との見方が広がる。
+        本日は東京タイムのドル需要、ロンドン以降の米インフレ織り込み修正と、トランプ大統領の中東関連発言、片山財務相の口先介入に要注意。
+        <strong>戦略</strong>は157円ライン手前の戻り売り優位、158円突破時は介入警戒で押し目買い慎重に。
+      </div>
+      <div class="summary-takeaway-meta">
+        <span>中東戦闘長期化</span>
+        <span>米インフレ加速</span>
+        <span>防衛ライン160→157円</span>
+        <span>4回介入観測</span>
+      </div>
+    </div>
+
+    <!-- Hawk/Dove Gauges -->
+    <div class="gauge-panel">
+      <div class="gauge-panel-title">中央銀行スタンス / Central Bank Stance</div>
+      <div class="gauge">
+        <div class="gauge-head">
+          <span class="name">FED 🇺🇸</span>
+          <span class="verdict hawk">やや<b>タカ派</b></span>
+        </div>
+        <div class="gauge-bar"><div class="gauge-marker" style="left: 70%;"></div></div>
+        <div class="gauge-labels"><span>ハト派</span><span>中立</span><span>タカ派</span></div>
+      </div>
+      <div class="gauge">
+        <div class="gauge-head">
+          <span class="name">BOJ 🇯🇵</span>
+          <span class="verdict neutral">中立寄り<b>ハト派</b></span>
+        </div>
+        <div class="gauge-bar"><div class="gauge-marker" style="left: 32%;"></div></div>
+        <div class="gauge-labels"><span>ハト派</span><span>中立</span><span>タカ派</span></div>
+      </div>
+      <div class="gauge">
+        <div class="gauge-head">
+          <span class="name">ECB 🇪🇺</span>
+          <span class="verdict neutral">中立</span>
+        </div>
+        <div class="gauge-bar"><div class="gauge-marker" style="left: 50%;"></div></div>
+        <div class="gauge-labels"><span>ハト派</span><span>中立</span><span>タカ派</span></div>
+      </div>
+    </div>
+
+    <!-- Risk + Key levels -->
+    <div class="summary-side">
+      <div class="risk-indicator">
+        <span class="risk-label">市場ムード</span>
+        <span class="risk-pill off">Risk-Off 寄り</span>
+      </div>
+      <div class="risk-indicator">
+        <span class="risk-label">ドル基調</span>
+        <span class="risk-pill on">強含み</span>
+      </div>
+      <div class="key-levels-mini">
+        <div>📌 USD/JPY 注視水準</div>
+        <div>抵抗: <strong>160.72</strong>（4/30介入）/ <strong>161.95</strong>（2024介入）</div>
+        <div>支持: <strong>157.00</strong>（新防衛線）/ <strong>155.50</strong>（介入到達）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ALERT PANEL (NEW) ============ -->
+<div class="alert-strip">
+  <div class="alert-strip-label">🔔 アラート</div>
+  <div class="alert-strip-list" id="alert-list">
+    <!-- alerts populated via JS -->
+  </div>
+  <button class="alert-add-btn" id="alert-add">＋ 追加</button>
+  <button class="alert-notify-btn" id="alert-notify">通知許可</button>
+</div>
+
+<!-- ============ MAIN GRID ============ -->
+<div class="main-grid">
+
+  <!-- ========== LEFT COLUMN: Hot News ========== -->
+  <div class="col">
+    <div class="panel">
+      <div class="panel-header">
+        🔥 ホットニュース
+        <span class="panel-header-en">Curated Hot News</span>
+        <div class="panel-header-spacer"></div>
+        <span class="panel-tag">JPY介入 / 中東 / Trump</span>
+      </div>
+      <div class="hotnews-filter" id="news-filter">
+        <button class="hotnews-chip active" data-filter="all">すべて</button>
+        <button class="hotnews-chip" data-filter="jpy">円・介入</button>
+        <button class="hotnews-chip" data-filter="trump">トランプ</button>
+        <button class="hotnews-chip" data-filter="iran">中東・ホルムズ</button>
+        <button class="hotnews-chip" data-filter="fed">FED・金利</button>
+      </div>
+      <div class="hotnews-list" id="news-list">
+        <!-- News populated via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== RIGHT COLUMN ========== -->
+  <div class="col">
+
+    <!-- Featured Chart: USD/JPY -->
+    <div class="panel">
+      <div class="panel-header">
+        📈 注目チャート
+        <span class="panel-header-en">Featured Chart · USD/JPY (Default)</span>
+        <div class="panel-header-spacer"></div>
+        <span class="panel-tag live">LIVE</span>
+      </div>
+      <div class="chart-tabs-row">
+        <div class="chart-tabs-group" id="chart-symbol-tabs">
+          <button class="chart-tab active" data-symbol="FX:USDJPY">ドル円</button>
+          <button class="chart-tab" data-symbol="OSE:NK2251!">日経先物</button>
+          <button class="chart-tab" data-symbol="CME_MINI:YM1!">ダウ先物</button>
+          <button class="chart-tab" data-symbol="FX:EURUSD">ユーロドル</button>
+          <button class="chart-tab" data-symbol="TVC:USOIL">WTI原油</button>
+          <button class="chart-tab" data-symbol="TVC:DXY">ドル指数</button>
+        </div>
+        <div class="chart-tabs-group" id="chart-interval-tabs">
+          <button class="chart-tab" data-interval="1">1分</button>
+          <button class="chart-tab" data-interval="5">5分</button>
+          <button class="chart-tab" data-interval="15">15分</button>
+          <button class="chart-tab active" data-interval="60">1時間</button>
+          <button class="chart-tab" data-interval="240">4時間</button>
+          <button class="chart-tab" data-interval="D">日足</button>
+        </div>
+      </div>
+      <div class="tv-chart-host" id="featured-chart-host">
+        <!-- Chart iframe injected via JS for symbol/interval switching -->
+      </div>
+      <div class="chart-stats-strip" id="chart-stats-strip">
+        <span style="color:var(--text-dim);font-size:11px;">統計情報を取得中…</span>
+      </div>
+    </div>
+
+    <!-- Intervention Warning Levels (NEW) -->
+    <div class="panel">
+      <div class="panel-header">
+        🚨 USD/JPY 介入警戒水準
+        <span class="panel-header-en">Intervention Warning Levels</span>
+        <div class="panel-header-spacer"></div>
+        <span class="panel-tag auto">AUTO</span>
+      </div>
+      <div class="iv-panel">
+        <div class="iv-current">
+          <span class="iv-current-label">CURRENT USD/JPY</span>
+          <span class="iv-current-price" id="iv-current-price">---.---</span>
+          <span class="iv-current-time" id="iv-current-time">取得中…</span>
+        </div>
+        <div class="iv-list" id="iv-list">
+          <!-- Levels populated via JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Mini cards: Major FX | US Macro | JP & Oil -->
+    <div class="mini-grid-3col">
+      <!-- 主要為替 -->
+      <div class="panel mini-panel-set">
+        <div class="panel-header">
+          💱 主要為替
+          <span class="panel-header-en">Major FX</span>
+        </div>
+        <div class="mini-card">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+            {"symbol":"FX:USDJPY","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(79, 142, 255, 1)","underLineColor":"rgba(79, 142, 255, 0.15)","underLineBottomColor":"rgba(79, 142, 255, 0)"}
+            </script>
+          </div>
+        </div>
+        <div class="mini-card">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+            {"symbol":"FX:EURUSD","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(108, 92, 231, 1)","underLineColor":"rgba(108, 92, 231, 0.15)","underLineBottomColor":"rgba(108, 92, 231, 0)"}
+            </script>
+          </div>
+        </div>
+        <div class="mini-card">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+            {"symbol":"FX:EURJPY","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(255, 159, 67, 1)","underLineColor":"rgba(255, 159, 67, 0.15)","underLineBottomColor":"rgba(255, 159, 67, 0)"}
+            </script>
+          </div>
+        </div>
+      </div>
+
+      <!-- 米国・マクロ -->
+      <div class="panel mini-panel-set">
+        <div class="panel-header">
+          🇺🇸 米国・マクロ
+          <span class="panel-header-en">US & Macro</span>
+        </div>
+        <div class="mini-card">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+            {"symbol":"CME_MINI:YM1!","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(38, 217, 127, 1)","underLineColor":"rgba(38, 217, 127, 0.15)","underLineBottomColor":"rgba(38, 217, 127, 0)"}
+            </script>
+          </div>
+        </div>
+        <div class="mini-card">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+            {"symbol":"TVC:DXY","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(79, 142, 255, 1)","underLineColor":"rgba(79, 142, 255, 0.15)","underLineBottomColor":"rgba(79, 142, 255, 0)"}
+            </script>
+          </div>
+        </div>
+        <div class="mini-card">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+            {"symbol":"CBOE:VIX","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(255, 77, 109, 1)","underLineColor":"rgba(255, 77, 109, 0.15)","underLineBottomColor":"rgba(255, 77, 109, 0)"}
+            </script>
+          </div>
+        </div>
+      </div>
+
+      <!-- 日本&原油 -->
+      <div class="panel mini-panel-set">
+        <div class="panel-header">
+          🇯🇵 日本 & 原油
+          <span class="panel-header-en">JP & Oil</span>
+        </div>
+        <div class="mini-card">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+            {"symbol":"OSE:NK2251!","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(255, 77, 109, 1)","underLineColor":"rgba(255, 77, 109, 0.15)","underLineBottomColor":"rgba(255, 77, 109, 0)"}
+            </script>
+          </div>
+        </div>
+        <div class="mini-card">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+            {"symbol":"TVC:USOIL","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(255, 204, 77, 1)","underLineColor":"rgba(255, 204, 77, 0.15)","underLineBottomColor":"rgba(255, 204, 77, 0)"}
+            </script>
+          </div>
+        </div>
+        <div class="mini-card">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
+            {"symbol":"TVC:GOLD","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(255, 204, 77, 1)","underLineColor":"rgba(255, 204, 77, 0.15)","underLineBottomColor":"rgba(255, 204, 77, 0)"}
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom: Calendar | Detailed Chart -->
+    <div class="bottom-2col">
+      <div class="panel">
+        <div class="panel-header">
+          📅 米国経済指標カレンダー
+          <span class="panel-header-en">Economic Calendar · 中・高重要度</span>
+        </div>
+        <div class="panel-body-flush">
+          <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+            {"colorTheme":"dark","isTransparent":true,"width":"100%","height":620,"locale":"ja","importanceFilter":"0,1","countryFilter":"us,jp,eu,gb"}
+            </script>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          📊 詳細チャート
+          <span class="panel-header-en">Detailed Chart · 1H · EMA9 · RSI</span>
+          <div class="panel-header-spacer"></div>
+          <span class="panel-tag">USD/JPY 1H</span>
+        </div>
+        <div style="height: 620px;">
+          <div class="tradingview-widget-container" style="height:100%;width:100%">
+            <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+            {"autosize":true,"symbol":"FX:USDJPY","interval":"60","timezone":"Asia/Tokyo","theme":"dark","style":"1","locale":"ja","enable_publishing":false,"hide_side_toolbar":true,"allow_symbol_change":true,"details":false,"hotlist":false,"calendar":false,"studies":["STD;EMA"],"support_host":"https://www.tradingview.com"}
+            </script>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Technical Analysis Auto -->
+    <div class="panel">
+      <div class="panel-header">
+        🎯 USD/JPY 自動テクニカル分析
+        <span class="panel-header-en">Auto Technical Analysis · 複数時間軸</span>
+        <div class="panel-header-spacer"></div>
+        <span class="panel-tag auto">AUTO</span>
+      </div>
+      <div class="panel-body-flush">
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+          {"interval":"1h","width":"100%","isTransparent":true,"height":460,"symbol":"FX:USDJPY","showIntervalTabs":true,"displayMode":"single","locale":"ja","colorTheme":"dark"}
+          </script>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  © World Monitor — Real-time market data via
+  <a href="https://www.tradingview.com/" class="footer-link" target="_blank" rel="noopener">TradingView</a>
+  · 価格データ via Yahoo Finance · 本ダッシュボードは情報提供のみを目的とし、売買推奨ではありません。
+</footer>
+
+<!-- ============ MODAL: Add Alert ============ -->
+<div class="modal-backdrop" id="alert-modal">
+  <div class="modal">
+    <h3>🔔 アラート追加</h3>
+    <div class="form-row">
+      <label>通貨ペア / 指標</label>
+      <select id="alert-symbol">
+        <option value="USDJPY">USD/JPY</option>
+        <option value="EURUSD">EUR/USD</option>
+        <option value="EURJPY">EUR/JPY</option>
+        <option value="GBPJPY">GBP/JPY</option>
+        <option value="DX-Y.NYB">DXY（ドル指数）</option>
+        <option value="CL=F">WTI原油先物</option>
+        <option value="YM=F">ダウ先物</option>
+        <option value="NIY=F">日経先物（CME）</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>条件</label>
+      <select id="alert-condition">
+        <option value="above">上抜け（≥ 設定値）</option>
+        <option value="below">下抜け（≤ 設定値）</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <label>しきい値</label>
+      <input type="number" id="alert-threshold" step="0.01" placeholder="例: 160.00">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="alert-cancel">キャンセル</button>
+      <button class="btn btn-primary" id="alert-save">追加する</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==========================================================================
+ * World Monitor — Client-side logic
+ * 1. Live clocks (3 cities)
+ * 2. Featured chart (symbol/interval switching)
+ * 3. Hot News (static curated list + filter)
+ * 4. Price polling (Yahoo Finance via CORS proxy)
+ * 5. Alert system (localStorage + Notification API)
+ * 6. Intervention warning levels (live distance computation)
+ * 7. Header price ticker
+ * ========================================================================== */
+
+/* ============ 1) CLOCKS ============ */
+(function () {
+  function partsFor(timezone) {
+    const fmt = new Intl.DateTimeFormat('ja-JP', {
+      timeZone: timezone, year: 'numeric', month: '2-digit', day: '2-digit',
+      weekday: 'short', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    });
+    const parts = {}; fmt.formatToParts(new Date()).forEach(p => parts[p.type] = p.value);
+    return parts;
+  }
+  function update() {
+    [['tyo','Asia/Tokyo'],['ldn','Europe/London'],['nyc','America/New_York']].forEach(([id,tz]) => {
+      const p = partsFor(tz);
+      let h = p.hour === '24' ? '00' : p.hour;
+      const te = document.getElementById('clock-' + id);
+      const de = document.getElementById('date-' + id);
+      if (te) te.textContent = `${h}:${p.minute}:${p.second}`;
+      if (de) de.textContent = `${p.month}/${p.day}(${p.weekday})`;
+    });
+  }
+  update();
+  setInterval(update, 1000);
+})();
+
+/* ============ 2) FEATURED CHART SWITCHING ============ */
+const FeaturedChart = (function () {
+  const host = document.getElementById('featured-chart-host');
+  let currentSymbol = 'FX:USDJPY';
+  let currentInterval = '60';
+
+  function render() {
+    // Build a TradingView advanced chart iframe via the embed-widget-advanced-chart.js loader.
+    // For dynamic switching, we replace the host's innerHTML and re-inject the script tag.
+    host.innerHTML = `
+      <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
+      </div>`;
+    const cfg = {
+      "autosize": true,
+      "symbol": currentSymbol,
+      "interval": currentInterval,
+      "timezone": "Asia/Tokyo",
+      "theme": "dark",
+      "style": "1",
+      "locale": "ja",
+      "enable_publishing": false,
+      "withdateranges": false,
+      "hide_side_toolbar": true,
+      "hide_top_toolbar": false,
+      "allow_symbol_change": false,
+      "details": false,
+      "hotlist": false,
+      "calendar": false,
+      "studies": ["STD;EMA"],
+      "support_host": "https://www.tradingview.com"
+    };
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+    script.async = true;
+    script.text = JSON.stringify(cfg);
+    host.querySelector('.tradingview-widget-container').appendChild(script);
+    // Refresh the horizontal stats strip for the new symbol
+    if (typeof updateChartStats === 'function') {
+      updateChartStats(currentSymbol);
+    }
+  }
+
+  document.querySelectorAll('#chart-symbol-tabs .chart-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#chart-symbol-tabs .chart-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentSymbol = btn.dataset.symbol;
+      render();
+    });
+  });
+  document.querySelectorAll('#chart-interval-tabs .chart-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#chart-interval-tabs .chart-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentInterval = btn.dataset.interval;
+      render();
+    });
+  });
+
+  render();
+  return { render, getSymbol: () => currentSymbol };
+})();
+
+/* ============ 3) HOT NEWS (curated static + filter) ============ */
+const HOT_NEWS = [
+  {date:'5/17', cat:'jpy', title:'ドル円158円台後半で推移、当局介入警戒継続',
+   snip:'東京時間でUSD/JPYは158.7台で推移。実需のドル買い需要と地政学リスクが綱引き。三村財務官は介入回数に上限はないとして警戒継続を促す。',
+   src:['Bloomberg','日経']},
+  {date:'5/16', cat:'fed', title:'FOMC議事要旨：利下げ時期について慎重姿勢',
+   snip:'インフレ動向を見極めるまで利下げ判断は時期尚早との見解が多数派。年内の利下げ織り込みは1回未満まで後退。',
+   src:['ロイター','WSJ']},
+  {date:'5/10', cat:'iran', title:'イラン軍准将「米制裁追従国はホルムズ通過に問題が生じる」',
+   snip:'アクラミニア准将が警告。「米国に追随し対イラン制裁を執行する国は、ホルムズ海峡を通過する際に確実に問題に直面する」と発言、緊張再燃。',
+   src:['CNN']},
+  {date:'5/8', cat:'jpy', title:'政府・日銀 介入規模、4/30以降推計で最大10兆800億円',
+   snip:'Bloomberg推計。連休はざまの2回連続実施で、断続的に最大10兆超のドル売り円買いを行ったとみられる。',
+   src:['Bloomberg']},
+  {date:'5/7', cat:'jpy', title:'三村財務官「IMFルールは介入回数を制約しない」原油先物にも体制整備',
+   snip:'IMFの「6カ月3シリーズ」基準は単なる分類で回数制約ではないと明言。「照準は全方位」とし原油先物にも体制を整える方針。',
+   src:['Bloomberg','日経','みんかぶ']},
+  {date:'5/7', cat:'iran', title:'米イラン、ホルムズ海峡で銃撃事案 互いに先に発砲と主張',
+   snip:'米中央軍は「無誘発のイラン攻撃を迎撃し自衛で反撃」と発表。イラン側は4/8停戦合意違反と反論。',
+   src:['CNBC','CNN']},
+  {date:'5/7', cat:'iran', title:'原油、ホルムズ提案待ちで小幅安 ブレント100.06ドル',
+   snip:'米提案へのイラン回答待ちで原油は約1%下落。ホルムズ通航再開・核濃縮モラトリアム・制裁解除が骨子の14項目MoU案。',
+   src:['CNBC']},
+  {date:'5/6', cat:'trump', title:'トランプ「合意なければ過去最大規模で攻撃再開」',
+   snip:'イランが既合意条件を受諾すれば作戦「エピック・フューリー」終結。受諾なき場合は最大規模の攻撃再開を示唆。',
+   src:['Reuters']},
+  {date:'5/5', cat:'macro', title:'米10年債利回り4.5%台、ドル堅調',
+   snip:'米長期金利が再び4.5%台に上昇、ドルインデックスは年初来高値圏。新興国通貨に売り圧力。',
+   src:['Bloomberg']},
+];
+
+(function renderNews(){
+  const list = document.getElementById('news-list');
+  function draw(filter) {
+    const items = (filter === 'all') ? HOT_NEWS : HOT_NEWS.filter(n => n.cat === filter);
+    list.innerHTML = items.map(n => `
+      <div class="news-item">
+        <div class="news-meta">
+          <span class="news-date">${n.date}</span>
+          <span class="news-cat ${n.cat}">${({iran:'IRAN/HORMUZ',jpy:'JPY 介入',trump:'TRUMP',fed:'FED',macro:'MACRO'})[n.cat]}</span>
+        </div>
+        <div class="news-title">${n.title}</div>
+        <div class="news-snippet">${n.snip}</div>
+        <div class="news-source">${n.src.map(s => `<span class="news-source-chip">${s}</span>`).join('')}</div>
+      </div>
+    `).join('');
+  }
+  draw('all');
+  document.getElementById('news-filter').addEventListener('click', e => {
+    if (e.target.matches('.hotnews-chip')) {
+      document.querySelectorAll('.hotnews-chip').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      draw(e.target.dataset.filter);
+    }
+  });
+})();
+
+/* ============ 4) PRICE FETCHER (Yahoo Finance via CORS proxy) ============ */
+const Prices = (function () {
+  // Yahoo Finance symbols
+  const CORS_PROXIES = [
+    'https://corsproxy.io/?',
+    'https://api.allorigins.win/raw?url='
+  ];
+  let activeProxyIndex = 0;
+
+  // Cache: { symbol: { price, pct, change, time } }
+  const cache = {};
+
+  async function fetchOne(yahooSymbol) {
+    const yfUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?interval=1m&range=1d`;
+    for (let attempt = 0; attempt < CORS_PROXIES.length; attempt++) {
+      const proxy = CORS_PROXIES[(activeProxyIndex + attempt) % CORS_PROXIES.length];
+      try {
+        const res = await fetch(proxy + encodeURIComponent(yfUrl));
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        const meta = data?.chart?.result?.[0]?.meta;
+        if (!meta) throw new Error('no meta');
+        activeProxyIndex = (activeProxyIndex + attempt) % CORS_PROXIES.length;
+        const price = meta.regularMarketPrice;
+        const prev = meta.chartPreviousClose || meta.previousClose;
+        const change = price - prev;
+        const pct = (change / prev) * 100;
+        cache[yahooSymbol] = {
+          price,
+          change,
+          pct,
+          open: meta.regularMarketOpen ?? null,
+          high: meta.regularMarketDayHigh ?? null,
+          low: meta.regularMarketDayLow ?? null,
+          prev,
+          time: new Date()
+        };
+        return cache[yahooSymbol];
+      } catch (e) {
+        // try next proxy
+      }
+    }
+    return cache[yahooSymbol] || null;
+  }
+
+  return {
+    fetchOne,
+    get: (s) => cache[s] || null,
+    cache
+  };
+})();
+
+/* ============ TV SYMBOL -> YAHOO SYMBOL MAP ============ */
+const TV_TO_YAHOO = {
+  'FX:USDJPY': { yf: 'JPY=X', digits: 3, name: 'USD/JPY' },
+  'OSE:NK2251!': { yf: 'NIY=F', digits: 0, name: '日経先物' },
+  'CME_MINI:YM1!': { yf: 'YM=F', digits: 0, name: 'ダウ先物' },
+  'FX:EURUSD': { yf: 'EURUSD=X', digits: 5, name: 'EUR/USD' },
+  'TVC:USOIL': { yf: 'CL=F', digits: 2, name: 'WTI原油' },
+  'TVC:DXY': { yf: 'DX-Y.NYB', digits: 3, name: 'ドル指数' }
+};
+
+/* ============ CHART STATS STRIP (horizontal, replaces RSI sub-pane) ============ */
+async function updateChartStats(tvSymbol) {
+  const strip = document.getElementById('chart-stats-strip');
+  if (!strip) return;
+  const map = TV_TO_YAHOO[tvSymbol];
+  if (!map) {
+    strip.innerHTML = `<span style="color:var(--text-dim);font-size:11px;">統計情報の取得元が未対応です（${tvSymbol}）</span>`;
+    return;
+  }
+  strip.innerHTML = `<span style="color:var(--text-dim);font-size:11px;">${map.name} 統計取得中…</span>`;
+  const r = await Prices.fetchOne(map.yf);
+  if (!r) {
+    strip.innerHTML = `<span style="color:var(--text-dim);font-size:11px;">${map.name} 統計取得失敗（Yahoo Finance障害の可能性）</span>`;
+    return;
+  }
+  const d = map.digits;
+  const dir = r.change >= 0 ? 'up' : 'down';
+  const sign = r.change >= 0 ? '+' : '';
+  const cells = [
+    { label: 'SYMBOL', value: map.name, cls: 'dim' },
+    { label: 'LAST', value: r.price?.toFixed(d) ?? '-', cls: dir },
+    { label: 'CHG', value: `${sign}${r.change?.toFixed(d) ?? '-'}`, cls: dir },
+    { label: 'CHG%', value: `${sign}${r.pct?.toFixed(2) ?? '-'}%`, cls: dir },
+    { label: 'OPEN', value: r.open != null ? r.open.toFixed(d) : '-' },
+    { label: 'HIGH', value: r.high != null ? r.high.toFixed(d) : '-' },
+    { label: 'LOW', value: r.low != null ? r.low.toFixed(d) : '-' },
+    { label: 'PREV CLOSE', value: r.prev != null ? r.prev.toFixed(d) : '-' },
+    { label: 'UPDATED', value: r.time.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', second: '2-digit' }), cls: 'dim' }
+  ];
+  strip.innerHTML = cells.map((c, i) => `
+    ${i > 0 ? '<div class="stat-sep"></div>' : ''}
+    <div class="stat-cell">
+      <div class="stat-label">${c.label}</div>
+      <div class="stat-value ${c.cls || ''}">${c.value}</div>
+    </div>
+  `).join('');
+}
+
+/* ============ 5) HEADER PRICE TICKER + INTERVENTION LEVELS update ============ */
+const InterventionLevels = [
+  // === 2024年介入水準（歴史的最高値ライン）===
+  { price: 161.95, label: '2024年7月介入実弾水準（歴史的高値圏）', tag: 'danger', tagText: '2024' },
+  // === 2026年4月30日 第1回介入（Web確認済み実勢値）===
+  { price: 160.72, label: '2026年4月30日 第1回介入開始水準', tag: 'danger', tagText: '2026/04' },
+  { price: 160.00, label: '当初の介入防衛ライン（4月時点）', tag: 'warn', tagText: 'PSY' },
+  // === 直近レンジ ===
+  { price: 158.00, label: '現値帯・直近上値抵抗', tag: 'warn', tagText: 'R1' },
+  // === 2026年5月 第2-4回介入推定ゾーン（防衛ライン引上げ観測）===
+  { price: 157.00, label: '2026年5月 新介入防衛ライン推定', tag: 'warn', tagText: '2026/05' },
+  { price: 155.50, label: '2026年4月30日介入到達水準', tag: 'support', tagText: '2026介入到達' },
+  { price: 155.00, label: '2026年5月GW・第2回介入到達水準（直近下値）', tag: 'support', tagText: '2026介入到達' },
+  // === 長期サポート ===
+  { price: 152.00, label: '日足200EMA近辺', tag: 'support', tagText: 'EMA200' }
+];
+
+function fmtPct(p) {
+  const s = p >= 0 ? '+' : '';
+  return `${s}${p.toFixed(2)}%`;
+}
+function fmtChg(c, digits=3) {
+  const s = c >= 0 ? '+' : '';
+  return `${s}${c.toFixed(digits)}`;
+}
+
+async function updateHeaderPrices() {
+  const targets = [
+    ['JPY=X', 'hp-usdjpy', 'hp-usdjpy-chg', 3],
+    ['EURUSD=X', 'hp-eurusd', 'hp-eurusd-chg', 5],
+    ['EURJPY=X', 'hp-eurjpy', 'hp-eurjpy-chg', 3],
+    ['DX-Y.NYB', 'hp-dxy', 'hp-dxy-chg', 3],
+  ];
+  for (const [sym, valId, chgId, dig] of targets) {
+    const r = await Prices.fetchOne(sym);
+    if (!r) continue;
+    const valEl = document.getElementById(valId);
+    const chgEl = document.getElementById(chgId);
+    if (valEl) valEl.textContent = r.price.toFixed(dig);
+    if (chgEl) {
+      chgEl.textContent = `${fmtChg(r.change, dig)} (${fmtPct(r.pct)})`;
+      chgEl.classList.toggle('up', r.change >= 0);
+      chgEl.classList.toggle('down', r.change < 0);
+    }
+  }
+}
+
+function updateInterventionLevels() {
+  const r = Prices.get('JPY=X');
+  const priceEl = document.getElementById('iv-current-price');
+  const timeEl = document.getElementById('iv-current-time');
+  const list = document.getElementById('iv-list');
+  if (!r) {
+    priceEl.textContent = '---.---';
+    timeEl.textContent = 'データ取得失敗';
+    list.innerHTML = '<div style="padding:8px 10px;color:var(--text-dim);font-size:11px;">価格データの取得に失敗しました。CORSプロキシ経由でYahoo Financeを呼び出しています。ネットワーク状況をご確認ください。</div>';
+    return;
+  }
+  const current = r.price;
+  priceEl.textContent = current.toFixed(3);
+  timeEl.textContent = '更新: ' + r.time.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+  // Render levels sorted descending. Insert a CURRENT marker between the two bracket levels.
+  const sorted = [...InterventionLevels].sort((a, b) => b.price - a.price);
+  let aboveIdx = -1, belowIdx = -1;
+  for (let i = 0; i < sorted.length; i++) {
+    if (sorted[i].price >= current) aboveIdx = i;
+    if (sorted[i].price < current && belowIdx === -1) belowIdx = i;
+  }
+  const rows = [];
+  sorted.forEach((lv, i) => {
+    const distPips = (lv.price - current) * 100;
+    const distRounded = Math.round(distPips);
+    const sign = distPips >= 0 ? '+' : '';
+    const cls = lv.price > current ? 'up' : 'down';
+    const isBracket = (i === aboveIdx || i === belowIdx);
+    rows.push(`
+      <div class="iv-row ${isBracket ? 'current-zone' : ''}">
+        <div class="iv-level">${lv.price.toFixed(2)}</div>
+        <div class="iv-label"><span class="tag ${lv.tag}">${lv.tagText}</span>${lv.label}</div>
+        <div class="iv-distance ${cls}">${sign}${distRounded}p</div>
+      </div>`);
+    // Insert current price marker just before the first level lower than current
+    if (i === aboveIdx && belowIdx === i + 1) {
+      rows.push(`
+        <div class="iv-row" style="background:rgba(79,142,255,0.18);border-color:var(--accent);">
+          <div class="iv-level" style="color:var(--accent);">▶ ${current.toFixed(3)}</div>
+          <div class="iv-label" style="color:var(--text);font-weight:700;">CURRENT USD/JPY</div>
+          <div class="iv-distance" style="color:var(--accent);">LIVE</div>
+        </div>`);
+    }
+  });
+  list.innerHTML = rows.join('');
+}
+
+/* ============ 6) ALERT SYSTEM ============ */
+const Alerts = (function () {
+  const STORAGE_KEY = 'wm_alerts_v1';
+  const SYM_TO_YF = {
+    USDJPY: 'JPY=X', EURUSD: 'EURUSD=X', EURJPY: 'EURJPY=X', GBPJPY: 'GBPJPY=X',
+    'DX-Y.NYB': 'DX-Y.NYB', 'CL=F': 'CL=F', 'YM=F': 'YM=F', 'NIY=F': 'NIY=F'
+  };
+  const SYM_DIGITS = {
+    USDJPY: 3, EURUSD: 5, EURJPY: 3, GBPJPY: 3,
+    'DX-Y.NYB': 3, 'CL=F': 2, 'YM=F': 0, 'NIY=F': 0
+  };
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+  function save(arr) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(arr)); } catch {}
+  }
+
+  function getYF(sym) { return SYM_TO_YF[sym] || sym; }
+  function getDigits(sym) { return SYM_DIGITS[sym] ?? 3; }
+
+  function render() {
+    const list = document.getElementById('alert-list');
+    const arr = load();
+    if (arr.length === 0) {
+      list.innerHTML = '<span style="font-size:11px;color:var(--text-dim);padding:4px 6px;">未設定</span>';
+      return;
+    }
+    list.innerHTML = arr.map(a => {
+      const dir = a.condition === 'above' ? '≥' : '≤';
+      const stateClass = a.triggered ? 'triggered' : 'armed';
+      return `
+        <span class="alert-chip ${stateClass}" data-id="${a.id}">
+          <span>${a.symbol}</span>
+          <span>${dir}</span>
+          <span><b>${a.threshold.toFixed(getDigits(a.symbol))}</b></span>
+          <button class="alert-chip-close" data-del="${a.id}">×</button>
+        </span>`;
+    }).join('');
+    // Bind deletes
+    list.querySelectorAll('[data-del]').forEach(b => {
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = b.dataset.del;
+        const arr = load().filter(a => a.id !== id);
+        save(arr);
+        render();
+      });
+    });
+  }
+
+  function add(symbol, condition, threshold) {
+    const arr = load();
+    arr.push({
+      id: 'a_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+      symbol, condition, threshold: Number(threshold),
+      triggered: false, createdAt: Date.now()
+    });
+    save(arr);
+    render();
+  }
+
+  async function check() {
+    const arr = load();
+    if (arr.length === 0) return;
+    const symbols = [...new Set(arr.map(a => getYF(a.symbol)))];
+    // Fetch all in parallel
+    await Promise.all(symbols.map(s => Prices.fetchOne(s)));
+    let dirty = false;
+    for (const a of arr) {
+      const r = Prices.get(getYF(a.symbol));
+      if (!r) continue;
+      const breached = (a.condition === 'above' && r.price >= a.threshold) ||
+                       (a.condition === 'below' && r.price <= a.threshold);
+      if (breached && !a.triggered) {
+        a.triggered = true;
+        dirty = true;
+        fireAlert(a, r.price);
+      }
+      if (!breached && a.triggered) {
+        // Re-arm if price moved away (so it can fire again next time)
+        a.triggered = false;
+        dirty = true;
+      }
+    }
+    if (dirty) { save(arr); render(); }
+  }
+
+  function fireAlert(a, price) {
+    const dir = a.condition === 'above' ? '上抜け' : '下抜け';
+    const msg = `${a.symbol} が ${a.threshold} を${dir} (現在 ${price.toFixed(getDigits(a.symbol))})`;
+    showToast(msg, 'alert');
+    if ('Notification' in window && Notification.permission === 'granted') {
+      try {
+        new Notification('🔔 ' + a.symbol + ' アラート', { body: msg, icon: '' });
+      } catch {}
+    }
+    // Also play a soft beep
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880;
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.15, ctx.currentTime + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.45);
+      o.start(); o.stop(ctx.currentTime + 0.5);
+    } catch {}
+  }
+
+  return { load, save, add, render, check };
+})();
+
+/* ============ TOAST ============ */
+function showToast(msg, kind) {
+  const t = document.getElementById('toast');
+  t.className = 'toast open' + (kind ? ' ' + kind : '');
+  t.textContent = msg;
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => { t.classList.remove('open'); }, 5000);
+}
+
+/* ============ ALERT MODAL UI ============ */
+(function () {
+  const modal = document.getElementById('alert-modal');
+  const openBtn = document.getElementById('alert-add');
+  const cancelBtn = document.getElementById('alert-cancel');
+  const saveBtn = document.getElementById('alert-save');
+  const notifyBtn = document.getElementById('alert-notify');
+
+  openBtn.addEventListener('click', () => {
+    document.getElementById('alert-threshold').value = '';
+    modal.classList.add('open');
+  });
+  cancelBtn.addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+
+  saveBtn.addEventListener('click', () => {
+    const sym = document.getElementById('alert-symbol').value;
+    const cond = document.getElementById('alert-condition').value;
+    const thr = parseFloat(document.getElementById('alert-threshold').value);
+    if (Number.isNaN(thr)) {
+      showToast('しきい値を数値で入力してください');
+      return;
+    }
+    Alerts.add(sym, cond, thr);
+    modal.classList.remove('open');
+    showToast(`アラート追加: ${sym} ${cond === 'above' ? '≥' : '≤'} ${thr}`);
+  });
+
+  // Notification permission
+  function updateNotifyBtn() {
+    if (!('Notification' in window)) {
+      notifyBtn.textContent = '通知非対応';
+      notifyBtn.disabled = true;
+      return;
+    }
+    if (Notification.permission === 'granted') {
+      notifyBtn.textContent = '通知ON ✓';
+      notifyBtn.classList.add('granted');
+    } else if (Notification.permission === 'denied') {
+      notifyBtn.textContent = '通知ブロック';
+    } else {
+      notifyBtn.textContent = '通知許可';
+    }
+  }
+  notifyBtn.addEventListener('click', async () => {
+    if (!('Notification' in window)) return;
+    if (Notification.permission === 'default') {
+      const res = await Notification.requestPermission();
+      if (res === 'granted') showToast('ブラウザ通知が有効になりました');
+    } else if (Notification.permission === 'granted') {
+      // Test
+      try { new Notification('🔔 World Monitor', { body: 'テスト通知です' }); }
+      catch {}
+    }
+    updateNotifyBtn();
+  });
+  updateNotifyBtn();
+})();
+
+/* ============ MAIN POLLING LOOP ============ */
+async function tick() {
+  try {
+    await updateHeaderPrices();
+    updateInterventionLevels();
+    // Refresh the chart stats strip for whichever symbol is currently selected
+    if (typeof FeaturedChart !== 'undefined' && FeaturedChart.getSymbol) {
+      await updateChartStats(FeaturedChart.getSymbol());
+    }
+    await Alerts.check();
+  } catch (e) {
+    console.warn('tick error', e);
+  }
+}
+
+// Initial render of alerts list
+Alerts.render();
+
+// Kick off and schedule
+tick();
+setInterval(tick, 30000); // every 30 seconds
+
+// Visibility hook to refresh on tab focus
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') tick();
+});
+
+// 12h safety reload (TradingView widgets stay fresh via WebSocket, but force-reload as a long-running safety)
+setTimeout(() => location.reload(), 12 * 60 * 60 * 1000);
+</script>
+
+</body>
+</html>

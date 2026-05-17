@@ -1215,6 +1215,24 @@ button { font-family: inherit; cursor: pointer; }
         <!-- News populated via JS -->
       </div>
     </div>
+
+    <!-- Auto Technical Analysis (moved from right column to balance heights) -->
+    <div class="panel">
+      <div class="panel-header">
+        🎯 USD/JPY 自動テクニカル分析
+        <span class="panel-header-en">Auto Technical Analysis · 複数時間軸</span>
+        <div class="panel-header-spacer"></div>
+        <span class="panel-tag auto">AUTO</span>
+      </div>
+      <div class="panel-body-flush">
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
+          {"interval":"1h","width":"100%","isTransparent":true,"height":460,"symbol":"FX:USDJPY","showIntervalTabs":true,"displayMode":"single","locale":"ja","colorTheme":"dark"}
+          </script>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ========== RIGHT COLUMN ========== -->
@@ -1473,24 +1491,6 @@ button { font-family: inherit; cursor: pointer; }
             {"autosize":true,"symbol":"FX:USDJPY","interval":"60","timezone":"Asia/Tokyo","theme":"dark","style":"1","locale":"ja","enable_publishing":false,"hide_side_toolbar":true,"allow_symbol_change":true,"details":false,"hotlist":false,"calendar":false,"studies":["STD;EMA"],"support_host":"https://www.tradingview.com"}
             </script>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Technical Analysis Auto -->
-    <div class="panel">
-      <div class="panel-header">
-        🎯 USD/JPY 自動テクニカル分析
-        <span class="panel-header-en">Auto Technical Analysis · 複数時間軸</span>
-        <div class="panel-header-spacer"></div>
-        <span class="panel-tag auto">AUTO</span>
-      </div>
-      <div class="panel-body-flush">
-        <div class="tradingview-widget-container">
-          <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-          {"interval":"1h","width":"100%","isTransparent":true,"height":460,"symbol":"FX:USDJPY","showIntervalTabs":true,"displayMode":"single","locale":"ja","colorTheme":"dark"}
-          </script>
         </div>
       </div>
     </div>

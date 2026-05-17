@@ -249,24 +249,25 @@ button { font-family: inherit; cursor: pointer; }
 }
 
 .summary-takeaway h3 {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .summary-takeaway h3 .by {
-  font-size: 10px;
+  font-size: 11.5px;
   color: var(--text-dim);
   font-weight: 500;
 }
 
 .summary-takeaway-body {
-  font-size: 13px;
-  line-height: 1.65;
+  font-size: 15px;
+  line-height: 1.75;
   color: var(--text-mid);
+  letter-spacing: 0.2px;
 }
 
 .summary-takeaway-body strong {
@@ -276,10 +277,10 @@ button { font-family: inherit; cursor: pointer; }
 
 .summary-takeaway-meta {
   display: flex;
-  gap: 12px;
-  margin-top: 8px;
+  gap: 14px;
+  margin-top: 10px;
   flex-wrap: wrap;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--text-dim);
 }
 
@@ -625,22 +626,23 @@ button { font-family: inherit; cursor: pointer; }
 .news-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 6px;
-  font-size: 11px;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12.5px;
 }
 
 .news-date {
   color: var(--text-dim);
   font-feature-settings: "tnum";
+  font-weight: 600;
 }
 
 .news-cat {
-  padding: 1px 7px;
-  border-radius: 3px;
+  padding: 2px 8px;
+  border-radius: 4px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .news-cat.iran { background: rgba(255, 159, 67, 0.15); color: var(--orange); }
@@ -649,33 +651,66 @@ button { font-family: inherit; cursor: pointer; }
 .news-cat.fed { background: rgba(108, 92, 231, 0.15); color: var(--accent-2); }
 .news-cat.macro { background: rgba(38, 217, 127, 0.15); color: var(--green); }
 
+.news-title-link {
+  color: var(--text);
+  text-decoration: none;
+  display: block;
+}
+
+.news-title-link:hover .news-title {
+  color: var(--accent);
+}
+
 .news-title {
-  font-size: 14.5px;
+  font-size: 16px;
   font-weight: 700;
-  line-height: 1.45;
-  margin-bottom: 6px;
+  line-height: 1.5;
+  margin-bottom: 8px;
   letter-spacing: 0.2px;
+  transition: color 0.15s;
+}
+
+.news-title::after {
+  content: " ↗";
+  font-size: 12px;
+  color: var(--text-dim);
+  font-weight: 400;
 }
 
 .news-snippet {
-  font-size: 12.5px;
+  font-size: 14px;
   color: var(--text-mid);
-  line-height: 1.6;
-  margin-bottom: 6px;
+  line-height: 1.7;
+  margin-bottom: 8px;
 }
 
 .news-source {
-  font-size: 11px;
+  font-size: 12.5px;
   color: var(--text-dim);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .news-source-chip {
-  display: inline-block;
-  padding: 2px 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px 9px;
   background: var(--panel-2);
-  border-radius: 3px;
-  margin-right: 4px;
-  font-size: 10.5px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 11.5px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.news-source-chip:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
 }
 
 /* ===================== FEATURED CHART ===================== */
@@ -1098,15 +1133,16 @@ button { font-family: inherit; cursor: pointer; }
     {
       "symbols": [
         {"description": "ドル円", "proName": "FX:USDJPY"},
-        {"description": "ドルインデックス", "proName": "TVC:DXY"},
+        {"description": "ドル指数", "proName": "CAPITALCOM:DXY"},
         {"description": "WTI原油", "proName": "TVC:USOIL"},
-        {"description": "ダウ先物", "proName": "CME_MINI:YM1!"},
-        {"description": "日経先物", "proName": "OSE:NK2251!"},
+        {"description": "ダウ指数", "proName": "TVC:DJI"},
+        {"description": "S&P500", "proName": "TVC:SPX"},
+        {"description": "日経225", "proName": "TVC:NI225"},
         {"description": "ユーロドル", "proName": "FX:EURUSD"},
         {"description": "ユーロ円", "proName": "FX:EURJPY"},
         {"description": "ポンド円", "proName": "FX:GBPJPY"},
         {"description": "ゴールド", "proName": "TVC:GOLD"},
-        {"description": "VIX", "proName": "CBOE:VIX"},
+        {"description": "VIX", "proName": "TVC:VIX"},
         {"description": "米10年債", "proName": "TVC:US10Y"}
       ],
       "showSymbolLogo": true,
@@ -1237,11 +1273,11 @@ button { font-family: inherit; cursor: pointer; }
       <div class="chart-tabs-row">
         <div class="chart-tabs-group" id="chart-symbol-tabs">
           <button class="chart-tab active" data-symbol="FX:USDJPY">ドル円</button>
-          <button class="chart-tab" data-symbol="OSE:NK2251!">日経先物</button>
-          <button class="chart-tab" data-symbol="CME_MINI:YM1!">ダウ先物</button>
+          <button class="chart-tab" data-symbol="TVC:NI225">日経225</button>
+          <button class="chart-tab" data-symbol="TVC:DJI">ダウ指数</button>
           <button class="chart-tab" data-symbol="FX:EURUSD">ユーロドル</button>
           <button class="chart-tab" data-symbol="TVC:USOIL">WTI原油</button>
-          <button class="chart-tab" data-symbol="TVC:DXY">ドル指数</button>
+          <button class="chart-tab" data-symbol="CAPITALCOM:DXY">ドル指数</button>
         </div>
         <div class="chart-tabs-group" id="chart-interval-tabs">
           <button class="chart-tab" data-interval="1">1分</button>
@@ -1324,7 +1360,7 @@ button { font-family: inherit; cursor: pointer; }
           <div class="tradingview-widget-container" style="height:100%;width:100%">
             <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
             <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-            {"symbol":"CME_MINI:YM1!","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(38, 217, 127, 1)","underLineColor":"rgba(38, 217, 127, 0.15)","underLineBottomColor":"rgba(38, 217, 127, 0)"}
+            {"symbol":"TVC:DJI","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(38, 217, 127, 1)","underLineColor":"rgba(38, 217, 127, 0.15)","underLineBottomColor":"rgba(38, 217, 127, 0)"}
             </script>
           </div>
         </div>
@@ -1332,7 +1368,7 @@ button { font-family: inherit; cursor: pointer; }
           <div class="tradingview-widget-container" style="height:100%;width:100%">
             <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
             <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-            {"symbol":"TVC:DXY","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(79, 142, 255, 1)","underLineColor":"rgba(79, 142, 255, 0.15)","underLineBottomColor":"rgba(79, 142, 255, 0)"}
+            {"symbol":"CAPITALCOM:DXY","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(79, 142, 255, 1)","underLineColor":"rgba(79, 142, 255, 0.15)","underLineBottomColor":"rgba(79, 142, 255, 0)"}
             </script>
           </div>
         </div>
@@ -1340,7 +1376,7 @@ button { font-family: inherit; cursor: pointer; }
           <div class="tradingview-widget-container" style="height:100%;width:100%">
             <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
             <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-            {"symbol":"CBOE:VIX","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(255, 77, 109, 1)","underLineColor":"rgba(255, 77, 109, 0.15)","underLineBottomColor":"rgba(255, 77, 109, 0)"}
+            {"symbol":"TVC:VIX","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(255, 77, 109, 1)","underLineColor":"rgba(255, 77, 109, 0.15)","underLineBottomColor":"rgba(255, 77, 109, 0)"}
             </script>
           </div>
         </div>
@@ -1356,7 +1392,7 @@ button { font-family: inherit; cursor: pointer; }
           <div class="tradingview-widget-container" style="height:100%;width:100%">
             <div class="tradingview-widget-container__widget" style="height:100%;width:100%"></div>
             <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js" async>
-            {"symbol":"OSE:NK2251!","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(255, 77, 109, 1)","underLineColor":"rgba(255, 77, 109, 0.15)","underLineBottomColor":"rgba(255, 77, 109, 0)"}
+            {"symbol":"TVC:NI225","width":"100%","height":"140","locale":"ja","dateRange":"1D","colorTheme":"dark","isTransparent":true,"autosize":false,"trendLineColor":"rgba(255, 77, 109, 1)","underLineColor":"rgba(255, 77, 109, 0.15)","underLineBottomColor":"rgba(255, 77, 109, 0)"}
             </script>
           </div>
         </div>
@@ -1448,14 +1484,16 @@ button { font-family: inherit; cursor: pointer; }
     <div class="form-row">
       <label>通貨ペア / 指標</label>
       <select id="alert-symbol">
-        <option value="USDJPY">USD/JPY</option>
-        <option value="EURUSD">EUR/USD</option>
-        <option value="EURJPY">EUR/JPY</option>
-        <option value="GBPJPY">GBP/JPY</option>
+        <option value="USDJPY">USD/JPY（ドル円）</option>
+        <option value="EURUSD">EUR/USD（ユーロドル）</option>
+        <option value="EURJPY">EUR/JPY（ユーロ円）</option>
+        <option value="GBPJPY">GBP/JPY（ポンド円）</option>
         <option value="DX-Y.NYB">DXY（ドル指数）</option>
-        <option value="CL=F">WTI原油先物</option>
-        <option value="YM=F">ダウ先物</option>
-        <option value="NIY=F">日経先物（CME）</option>
+        <option value="CL=F">WTI原油</option>
+        <option value="^DJI">ダウ指数</option>
+        <option value="^N225">日経225</option>
+        <option value="^GSPC">S&P500</option>
+        <option value="GC=F">ゴールド</option>
       </select>
     </div>
     <div class="form-row">
@@ -1580,52 +1618,76 @@ const FeaturedChart = (function () {
   return { render, getSymbol: () => currentSymbol };
 })();
 
-/* ============ 3) HOT NEWS (curated static + filter) ============ */
+/* ============ 3) HOT NEWS (curated with real article URLs) ============ */
 const HOT_NEWS = [
-  {date:'5/17', cat:'jpy', title:'ドル円158円台後半で推移、当局介入警戒継続',
-   snip:'東京時間でUSD/JPYは158.7台で推移。実需のドル買い需要と地政学リスクが綱引き。三村財務官は介入回数に上限はないとして警戒継続を促す。',
-   src:['Bloomberg','日経']},
-  {date:'5/16', cat:'fed', title:'FOMC議事要旨：利下げ時期について慎重姿勢',
-   snip:'インフレ動向を見極めるまで利下げ判断は時期尚早との見解が多数派。年内の利下げ織り込みは1回未満まで後退。',
-   src:['ロイター','WSJ']},
-  {date:'5/10', cat:'iran', title:'イラン軍准将「米制裁追従国はホルムズ通過に問題が生じる」',
-   snip:'アクラミニア准将が警告。「米国に追随し対イラン制裁を執行する国は、ホルムズ海峡を通過する際に確実に問題に直面する」と発言、緊張再燃。',
-   src:['CNN']},
-  {date:'5/8', cat:'jpy', title:'政府・日銀 介入規模、4/30以降推計で最大10兆800億円',
-   snip:'Bloomberg推計。連休はざまの2回連続実施で、断続的に最大10兆超のドル売り円買いを行ったとみられる。',
-   src:['Bloomberg']},
-  {date:'5/7', cat:'jpy', title:'三村財務官「IMFルールは介入回数を制約しない」原油先物にも体制整備',
-   snip:'IMFの「6カ月3シリーズ」基準は単なる分類で回数制約ではないと明言。「照準は全方位」とし原油先物にも体制を整える方針。',
-   src:['Bloomberg','日経','みんかぶ']},
-  {date:'5/7', cat:'iran', title:'米イラン、ホルムズ海峡で銃撃事案 互いに先に発砲と主張',
-   snip:'米中央軍は「無誘発のイラン攻撃を迎撃し自衛で反撃」と発表。イラン側は4/8停戦合意違反と反論。',
-   src:['CNBC','CNN']},
-  {date:'5/7', cat:'iran', title:'原油、ホルムズ提案待ちで小幅安 ブレント100.06ドル',
-   snip:'米提案へのイラン回答待ちで原油は約1%下落。ホルムズ通航再開・核濃縮モラトリアム・制裁解除が骨子の14項目MoU案。',
-   src:['CNBC']},
-  {date:'5/6', cat:'trump', title:'トランプ「合意なければ過去最大規模で攻撃再開」',
-   snip:'イランが既合意条件を受諾すれば作戦「エピック・フューリー」終結。受諾なき場合は最大規模の攻撃再開を示唆。',
-   src:['Reuters']},
-  {date:'5/5', cat:'macro', title:'米10年債利回り4.5%台、ドル堅調',
-   snip:'米長期金利が再び4.5%台に上昇、ドルインデックスは年初来高値圏。新興国通貨に売り圧力。',
-   src:['Bloomberg']},
+  {date:'5/16', cat:'iran', title:'米国とイラン、ホルムズ海峡再開巡り膠着－原油供給の逼迫強まる',
+   snip:'ブレント原油は4年ぶり126ドル台に急騰。停戦交渉は続くが物流正常化は始まらず、戦前比で通航量は約5%まで減少。原油・LNG・物流・保険の4軸で代替調達継続を推奨。',
+   src:[{name:'Bloomberg', url:'https://www.bloomberg.com/jp/news/articles/2026-05-16/TF4U93T96OSG00'}]},
+
+  {date:'5/15', cat:'iran', title:'ホルムズ海峡危機：情勢と実務リスク（5/15更新）',
+   snip:'機雷封鎖と米海軍封鎖の二重封鎖が継続。戦争危険保険料は0.25%から1〜10%へ最大40倍に上昇。安全在庫・代替調達・契約条項管理を緩めるべきではないとされる。',
+   src:[{name:'Global SCM', url:'https://global-scm.com/blog/?p=7006'}]},
+
+  {date:'5/13', cat:'jpy', title:'ドル円(USD/JPY)見通し：158円が射程に、日米財務相 為替政策で連携確認 米PPI警戒',
+   snip:'米PPI警戒のなか、158円水準が重要な攻防ライン。160円付近のレジスタンスを意識した展開。米インフレ加速がFRBの利下げ期待を後退させドル堅調。',
+   src:[{name:'IG証券', url:'https://www.ig.com/jp/news-and-trade-ideas/usdjpy-forecast-today-and-key-levels-to-watch-260513'}]},
+
+  {date:'5/12', cat:'trump', title:'トランプ大統領、ホルムズ海峡船舶通航支援作戦の一時停止を発表',
+   snip:'米中央軍の支援作戦を一時停止。イラン側の対応次第で再開も含めた強硬姿勢を維持。中東リスク継続でブレント原油・円・ゴールドに影響。',
+   src:[{name:'JETRO', url:'https://www.jetro.go.jp/biznews/2026/05/70b7e8f4824f053e.html'}]},
+
+  {date:'5/8', cat:'jpy', title:'日本、円介入ラインを157円に引き上げ？ 急激な変動が憶測呼ぶ',
+   snip:'当初160円とされた介入防衛ラインが、複数回の追加介入を経て157円付近に上方修正されたとの観測。市場の介入警戒水準が前倒しに。',
+   src:[{name:'Nikkei Asia', url:'https://asia.nikkei.com/business/markets/currencies/did-japan-raise-yen-intervention-line-to-157-sharp-volatility-draws-speculation'}]},
+
+  {date:'5/7', cat:'jpy', title:'連休中に為替が円高に振れる：今後も予想される為替介入',
+   snip:'NRI木内登英氏の分析。GW期間中の追加介入観測、累計4回目に到達との報道。介入は時間稼ぎ的政策であり、日米金利差縮小がないと持続効果は限定的との見方。',
+   src:[{name:'NRI 木内登英', url:'https://www.nri.com/jp/media/column/kiuchi/20260507.html'}]},
+
+  {date:'5/7', cat:'fed', title:'2026年FOMC：政策金利は4.25-4.50%で据え置き、議長交代に注目',
+   snip:'2025年12月から3会合連続で据え置き。2026年5月のパウエル議長任期満了後の方針が焦点。トランプ政権の関税政策で不確実性高まる中、市場は年内の現状維持を予想。',
+   src:[{name:'OANDA Lab', url:'https://www.oanda.jp/lab-education/beginners/fundamentals_analysis/fomc-meeting/'}]},
+
+  {date:'5/3', cat:'jpy', title:'30日の円買い介入、5兆円規模か 市場推計',
+   snip:'4月30日の介入で160.72円付近から155.50円まで急落、約2年ぶりの実施。日銀当座預金の見込み額の振れから市場が推計。前回は2024年7月。',
+   src:[{name:'日本経済新聞', url:'https://www.nikkei.com/article/DGXZQOUB013C00R00C26A5000000/'}]},
+
+  {date:'5/1', cat:'jpy', title:'大型連休のはざまにドル売り円買いの為替介入：為替介入は時間稼ぎの政策',
+   snip:'NRI木内登英氏。介入は持続的な相場転換を意味しない時間稼ぎ。トレンド転換には日米金利差の縮小が必要、と分析。',
+   src:[{name:'NRI 木内登英', url:'https://www.nri.com/jp/media/column/kiuchi/20260501.html'}]},
+
+  {date:'4/30', cat:'jpy', title:'為替介入の仕組みや効果は？ 政府・日銀が約2年ぶりに実施',
+   snip:'前回2024年7月以来の介入。財務省＋日銀が外貨準備からドル売り円買いを実施。次回タイミングと持続性が焦点。',
+   src:[{name:'東京新聞', url:'https://www.tokyo-np.co.jp/article/485711'}]},
 ];
+
+const NEWS_CAT_LABEL = { iran:'IRAN/HORMUZ', jpy:'JPY 介入', trump:'TRUMP', fed:'FED', macro:'MACRO' };
 
 (function renderNews(){
   const list = document.getElementById('news-list');
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
   function draw(filter) {
     const items = (filter === 'all') ? HOT_NEWS : HOT_NEWS.filter(n => n.cat === filter);
-    list.innerHTML = items.map(n => `
-      <div class="news-item">
-        <div class="news-meta">
-          <span class="news-date">${n.date}</span>
-          <span class="news-cat ${n.cat}">${({iran:'IRAN/HORMUZ',jpy:'JPY 介入',trump:'TRUMP',fed:'FED',macro:'MACRO'})[n.cat]}</span>
-        </div>
-        <div class="news-title">${n.title}</div>
-        <div class="news-snippet">${n.snip}</div>
-        <div class="news-source">${n.src.map(s => `<span class="news-source-chip">${s}</span>`).join('')}</div>
-      </div>
-    `).join('');
+    list.innerHTML = items.map(n => {
+      const primaryUrl = (n.src[0] && n.src[0].url) || '#';
+      const sourceChips = n.src.map(s => `
+        <a class="news-source-chip" href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.name)} ↗</a>
+      `).join('');
+      return `
+        <div class="news-item">
+          <div class="news-meta">
+            <span class="news-date">${n.date}</span>
+            <span class="news-cat ${n.cat}">${NEWS_CAT_LABEL[n.cat]}</span>
+          </div>
+          <a class="news-title-link" href="${escapeHtml(primaryUrl)}" target="_blank" rel="noopener">
+            <div class="news-title">${escapeHtml(n.title)}</div>
+          </a>
+          <div class="news-snippet">${escapeHtml(n.snip)}</div>
+          <div class="news-source">${sourceChips}</div>
+        </div>`;
+    }).join('');
   }
   draw('all');
   document.getElementById('news-filter').addEventListener('click', e => {
@@ -1689,14 +1751,14 @@ const Prices = (function () {
   };
 })();
 
-/* ============ TV SYMBOL -> YAHOO SYMBOL MAP ============ */
+/* ============ TV SYMBOL -> YAHOO SYMBOL MAP (free-data only) ============ */
 const TV_TO_YAHOO = {
   'FX:USDJPY': { yf: 'JPY=X', digits: 3, name: 'USD/JPY' },
-  'OSE:NK2251!': { yf: 'NIY=F', digits: 0, name: '日経先物' },
-  'CME_MINI:YM1!': { yf: 'YM=F', digits: 0, name: 'ダウ先物' },
+  'TVC:NI225': { yf: '^N225', digits: 0, name: '日経225' },
+  'TVC:DJI': { yf: '^DJI', digits: 0, name: 'ダウ指数' },
   'FX:EURUSD': { yf: 'EURUSD=X', digits: 5, name: 'EUR/USD' },
   'TVC:USOIL': { yf: 'CL=F', digits: 2, name: 'WTI原油' },
-  'TVC:DXY': { yf: 'DX-Y.NYB', digits: 3, name: 'ドル指数' }
+  'CAPITALCOM:DXY': { yf: 'DX-Y.NYB', digits: 3, name: 'ドル指数' }
 };
 
 /* ============ CHART STATS STRIP (horizontal, replaces RSI sub-pane) ============ */
@@ -1837,11 +1899,13 @@ const Alerts = (function () {
   const STORAGE_KEY = 'wm_alerts_v1';
   const SYM_TO_YF = {
     USDJPY: 'JPY=X', EURUSD: 'EURUSD=X', EURJPY: 'EURJPY=X', GBPJPY: 'GBPJPY=X',
-    'DX-Y.NYB': 'DX-Y.NYB', 'CL=F': 'CL=F', 'YM=F': 'YM=F', 'NIY=F': 'NIY=F'
+    'DX-Y.NYB': 'DX-Y.NYB', 'CL=F': 'CL=F',
+    '^DJI': '^DJI', '^N225': '^N225', '^GSPC': '^GSPC', 'GC=F': 'GC=F'
   };
   const SYM_DIGITS = {
     USDJPY: 3, EURUSD: 5, EURJPY: 3, GBPJPY: 3,
-    'DX-Y.NYB': 3, 'CL=F': 2, 'YM=F': 0, 'NIY=F': 0
+    'DX-Y.NYB': 3, 'CL=F': 2,
+    '^DJI': 0, '^N225': 0, '^GSPC': 2, 'GC=F': 2
   };
 
   function load() {

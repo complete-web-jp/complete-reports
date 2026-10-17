@@ -33,6 +33,11 @@ function build(T,D){
   var stage=wrap.querySelector(".n3-stage"),canvas=wrap.querySelector("canvas"),labelsEl=wrap.querySelector(".n3-labels"),clockEl=wrap.querySelector(".n3-clock");
   var playEl=wrap.querySelector(".n3-play"),timeEl=wrap.querySelector(".n3-time"),snowEl=wrap.querySelector(".n3-snow");
   var renderer=new T.WebGLRenderer({canvas:canvas,antialias:true,alpha:true,powerPreference:"high-performance"});
+  /* 描画できなくなった端末（GPUの都合で WebGL が落ちた等）は従来の SVG へ戻す */
+  var dead=false;
+  function fallback(why){if(dead)return;dead=true;sec.classList.remove("has-3d");wrap.remove();var st=sec.querySelector(".n3-steps");if(st)st.remove();if(window.console)console.warn("v9-map3d fallback:",why);}
+  canvas.addEventListener("webglcontextlost",function(e){e.preventDefault();fallback("context lost");},false);
+  var gl=renderer.getContext();if(!gl||gl.isContextLost()){fallback("no context");return;}
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputEncoding=T.sRGBEncoding;
   renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.setClearColor(0x000000,0);
   var scene=new T.Scene(),camera=new T.PerspectiveCamera(30,4/3,0.1,300);
@@ -184,7 +189,8 @@ function build(T,D){
   function place(l){l.obj.getWorldPosition(wp);wp.project(camera);if(wp.z>1){l.el.hidden=true;return;}l.el.hidden=false;
     l.el.style.transform="translate("+(((wp.x+1)/2)*stage.clientWidth+l.dx).toFixed(1)+"px,"+(((1-wp.y)/2)*stage.clientHeight+l.dy).toFixed(1)+"px)"+(l.left?" translateX(-100%)":"");}
   function frame(){
-    requestAnimationFrame(frame);
+    if(dead)return;requestAnimationFrame(frame);try{tick();}catch(e){fallback(e&&e.message);}}
+  function tick(){
     var dt=Math.min(clock.getDelta(),0.05),now=performance.now();
     if(!onScreen||document.hidden)return;
     if(playing){hour+=dt*1.5;if(hour>22)hour=4;timeEl.value=hour;applyTime();}
@@ -200,5 +206,6 @@ function build(T,D){
     renderer.render(scene,camera);labelItems.forEach(place);
   }
   size();applyTime();go(0);cam.r=to.r*1.1;pickStep();frame();
+  setTimeout(function(){try{var err=gl.getError();if(err&&err!==gl.CONTEXT_LOST_WEBGL){fallback("gl error "+err);}}catch(e){fallback(e&&e.message);}},4000);
 }
 })();

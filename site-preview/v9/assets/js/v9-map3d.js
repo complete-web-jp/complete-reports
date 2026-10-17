@@ -38,6 +38,19 @@ function build(T,D){
   function fallback(why){if(dead)return;dead=true;sec.classList.remove("has-3d");wrap.remove();var st=sec.querySelector(".n3-steps");if(st)st.remove();if(window.console)console.warn("v9-map3d fallback:",why);}
   canvas.addEventListener("webglcontextlost",function(e){e.preventDefault();fallback("context lost");},false);
   var gl=renderer.getContext();if(!gl||gl.isContextLost()){fallback("no context");return;}
+  /* 診断（URL に #v9debug を付けたときだけ。舞台の上に WebGL の状態と console の警告を出す） */
+  var dbg=null;
+  if(/v9debug/.test(location.hash)){
+    dbg=document.createElement("pre");dbg.style.cssText="position:absolute;left:8px;top:8px;right:8px;max-height:70%;overflow:auto;margin:0;padding:8px;font:11px/1.4 monospace;background:rgba(0,0,0,.72);color:#9f9;z-index:9;white-space:pre-wrap;pointer-events:auto";stage.appendChild(dbg);
+    var lines=[];function log(x){lines.push(String(x));dbg.textContent=lines.join("\n");}
+    try{var ri=gl.getExtension("WEBGL_debug_renderer_info");log("ua: "+navigator.userAgent);log("gl: "+gl.getParameter(gl.VERSION)+" / "+(ri?gl.getParameter(ri.UNMASKED_VENDOR_WEBGL)+" / "+gl.getParameter(ri.UNMASKED_RENDERER_WEBGL):"(no debug info)"));
+      log("dpr "+window.devicePixelRatio+" maxTex "+gl.getParameter(gl.MAX_TEXTURE_SIZE)+" maxRB "+gl.getParameter(gl.MAX_RENDERBUFFER_SIZE)+" aniso "+renderer.capabilities.getMaxAnisotropy()+" webgl2 "+renderer.capabilities.isWebGL2);}catch(e){log("info err "+e.message);}
+    ["warn","error"].forEach(function(k){var o=console[k];console[k]=function(){try{log(k+": "+Array.prototype.map.call(arguments,function(a){return typeof a==="string"?a:JSON.stringify(a);}).join(" ").slice(0,600));}catch(e){}return o.apply(console,arguments);};});
+    window.addEventListener("error",function(e){log("window.error: "+e.message);});
+    setTimeout(function(){try{log("after 3s: glError="+gl.getError()+" buffer="+gl.drawingBufferWidth+"x"+gl.drawingBufferHeight+" calls="+renderer.info.render.calls+" tris="+renderer.info.render.triangles+" programs="+renderer.info.programs.length+" lost="+gl.isContextLost());
+      var px=new Uint8Array(4);gl.readPixels(Math.floor(gl.drawingBufferWidth/2),Math.floor(gl.drawingBufferHeight/2),1,1,gl.RGBA,gl.UNSIGNED_BYTE,px);log("center px(after frame, may be cleared)="+Array.prototype.join.call(px,","));
+      renderer.info.programs.forEach(function(pg){if(pg.diagnostics)log("program diag: "+JSON.stringify(pg.diagnostics).slice(0,400));});}catch(e){log("diag err "+e.message);}},3000);
+  }
   renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));renderer.outputEncoding=T.sRGBEncoding;
   renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.setClearColor(0x000000,0);
   var scene=new T.Scene(),camera=new T.PerspectiveCamera(30,4/3,0.1,300);

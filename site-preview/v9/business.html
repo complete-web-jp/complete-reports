@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>事業案内｜株式会社complete</title>
+<meta name="description" content="株式会社completeの事業案内。運送（軽貨物・一般貨物）、暮らしサービス（不動産・通信）、法人サービス（WEB・コンサル）。">
+<link rel="stylesheet" href="assets/css/style.css?v=20260806c">
+<!-- Google Analytics (GA4)：公開時に GA_ID を実際の測定ID（G-で始まる）へ差し替えると有効になります -->
+<script>
+(function(){var GA_ID='G-XXXXXXXXXX';if(GA_ID.indexOf('XXXX')>-1)return;
+var s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;document.head.appendChild(s);
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;
+gtag('js',new Date());gtag('config',GA_ID);})();
+</script>
+</head>
+<body>
+
+<!-- ===== ヘッダー ===== -->
+<header class="site-header" id="header">
+  <div class="wrap header-inner">
+    <a class="logo" href="index.html">
+      <img src="assets/img/w-logo.png" alt="">
+      <span class="mark">COMPLETE</span>
+    </a>
+    <ul class="nav">
+      <li class="has-menu">
+        <a href="index.html">運送</a>
+        <div class="dropdown">
+          <p class="lead">すべては、運ぶことから。</p>
+          <a href="business.html?dept=keika">軽貨物事業<small>ラストワンマイルを、担う。</small></a>
+          <a href="business.html?dept=ippan">一般貨物事業<small>１トンバンからトラックまで。</small></a>
+        </div>
+      </li>
+      <li class="has-menu">
+        <a href="index.html#pillars">暮らしサービス</a>
+        <div class="dropdown">
+          <p class="lead">暮らしを、まるごと。</p>
+          <a href="business.html?dept=fudosan">不動産事業<small>働く人の、住まいを支える。</small></a>
+          <a href="business.html?dept=tsushin">通信事業<small>スマホも回線も、ひとつの窓口で。</small></a>
+        </div>
+      </li>
+      <li class="has-menu">
+        <a href="index.html#pillars">法人サービス</a>
+        <div class="dropdown">
+          <p class="lead">現場を知る会社の、事業支援。</p>
+          <a href="business.html?dept=web">WEB事業<small>制作から運用まで、ワンストップで。</small></a>
+          <a href="business.html?dept=consul">コンサルティング事業<small>現場目線の、経営支援。</small></a>
+        </div>
+      </li>
+      <li><a href="about.html">会社情報</a></li>
+      <li><a href="recruit.html">採用情報</a></li>
+    </ul>
+    <div class="header-actions">
+      <a class="tel" href="tel:0113125710"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>011-312-5710<small>受付 平日 9:00–18:00</small></span></a>
+      <a class="btn" href="contact.html">お問い合わせ</a>
+    </div>
+    <button class="nav-toggle" aria-label="メニュー" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== ページヒーロー（データ駆動で差し込み） ===== -->
+<section class="page-hero has-photo ph-business">
+  <div class="wrap">
+    <p class="eyebrow" id="bh-parent">事業案内</p>
+    <h1 id="bh-catch">事業案内</h1>
+    <p id="bh-lead"></p>
+    <span id="bh-partner" class="partner-badge" style="display:none;"></span>
+    <!-- 兄弟タブ（同じ親タブ配下の事業部） -->
+    <div class="sibling-tabs" id="bh-siblings"></div>
+  </div>
+</section>
+
+<div class="wrap"><nav class="breadcrumb"><a href="index.html">HOME</a> ／ <span id="bh-crumb">事業案内</span></nav></div>
+
+<!-- ===== 特徴3つ（データ駆動） ===== -->
+<section class="section" style="padding-top:20px;">
+  <div class="wrap">
+    <p class="eyebrow reveal">FEATURES</p>
+    <h2 class="section-title reveal" id="bh-feat-title">この事業の特徴</h2>
+    <div class="features" id="bh-features" style="margin-top:28px;"></div>
+
+    <!-- 事業部別の注記（軽貨物＝取引先／コンサル＝福祉さんさん 等） -->
+    <div class="note-fukushi reveal" id="bh-note" style="display:none;"></div>
+  </div>
+</section>
+
+<!-- ===== サービスメニュー（menuを持つ事業部のみ表示） ===== -->
+<section class="section alt" id="bh-menu-sec" style="display:none;">
+  <div class="wrap">
+    <p class="eyebrow reveal">SERVICE</p>
+    <h2 class="section-title reveal" id="bh-menu-title">取り扱いサービス</h2>
+    <div class="support" id="bh-menu" style="margin-top:28px;"></div>
+  </div>
+</section>
+
+
+
+<!-- 事業イメージ写真バンド（R08_2026_08_01・ヒーロー背景と併用） -->
+<section class="section" style="padding-top:0;padding-bottom:0;">
+  <div class="wrap">
+    <div class="biz-photo reveal" style="border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--line);margin-top:8px;">
+      <img id="bh-photo" src="assets/img/depot.jpg" alt="" style="width:100%;height:clamp(220px,30vw,380px);object-fit:cover;display:block;">
+    </div>
+  </div>
+</section>
+<!-- ===== 業務の流れ（flowを持つ事業部のみ・F-30） ===== -->
+<section class="section" id="bh-flow-sec" style="display:none;">
+  <div class="wrap">
+    <p class="eyebrow reveal">FLOW</p>
+    <h2 class="section-title reveal" id="bh-flow-title">ご依頼から対応までの流れ</h2>
+    <div class="flow" id="bh-flow"></div>
+  </div>
+</section>
+
+<!-- ===== 制作実績（worksを持つ事業部のみ） ===== -->
+<section class="section alt" id="bh-works-sec" style="display:none;">
+  <div class="wrap">
+    <p class="eyebrow reveal">WORKS</p>
+    <h2 class="section-title reveal">制作実績</h2>
+    <p class="section-lead reveal" id="bh-works-lead"></p>
+    <div class="works" id="bh-works"></div>
+  </div>
+</section>
+
+<!-- ===== 対応エリア・拠点（areaを持つ事業部のみ） ===== -->
+<section class="section" id="bh-area-sec" style="display:none;">
+  <div class="wrap">
+    <p class="eyebrow reveal">AREA</p>
+    <h2 class="section-title reveal">対応エリア・拠点</h2>
+    <p class="section-lead reveal" id="bh-area-lead"></p>
+    <div class="support" id="bh-area" style="margin-top:24px;"></div>
+  </div>
+</section>
+
+<!-- ===== CTA band ===== -->
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="cta-card reveal">
+      <div>
+        <h2 id="bh-cta-title">お問い合わせはこちら。</h2>
+        <p>ご相談・お見積もりはお気軽に。担当よりご連絡します。</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-lg" href="contact.html">お問い合わせフォーム</a>
+        <a class="btn btn-outline btn-lg" href="tel:0113125710">011-312-5710</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== フッター ===== -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <p class="mark">COMPLETE<b>.</b></p>
+        <p class="footer-statement">届けるのは荷物、支えるのは暮らし。札幌を拠点に、軽貨物・一般貨物の運送を軸として、住まい・通信・暮らしまでを一つの会社で支えるトータルライフサポートカンパニーです。</p>
+        <ul class="footer-addr-list">
+          <li><b>本社</b>　〒064-0809 札幌市中央区南九条西13丁目1-20 BLOCKTOWER 205</li>
+          <li><b>営業所</b>　本社（札幌市中央区）／東雁来（札幌市東区）／輪厚（北広島市）／北郷（札幌市白石区）</li>
+          <li><b>車庫</b>　札幌市白石区東米里2139</li>
+          <li><b>TEL</b>　011-312-5710（受付 平日 9:00–18:00）</li>
+        </ul>
+      </div>
+      <div>
+        <h4>運送</h4>
+        <ul>
+          <li><a href="business.html?dept=keika">軽貨物事業</a></li>
+          <li><a href="business.html?dept=ippan">一般貨物事業</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>暮らし・法人</h4>
+        <ul>
+          <li><a href="business.html?dept=fudosan">不動産</a></li>
+          <li><a href="business.html?dept=tsushin">通信</a></li>
+          <li><a href="business.html?dept=web">WEB事業</a></li>
+          <li><a href="business.html?dept=consul">コンサルティング事業</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>会社情報</h4>
+        <ul>
+          <li><a href="about.html">会社情報・拠点</a></li>
+          <li><a href="index.html#news">お知らせ</a></li>
+          <li><a href="recruit.html">採用情報</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+          <li><a href="privacy.html">プライバシーポリシー</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> 株式会社complete</span>
+      <span class="footer-license">一般貨物自動車運送事業／貨物軽自動車運送事業</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== 事業部データ（?dept= で出し分け） ===== -->
+<script>
+window.COMPLETE_DEPTS = {
+  /* ---- 運送（兄弟2：keika / ippan） ---- */
+  keika: {
+    parent: "運送", parentLead: "すべては、運ぶことから。",
+    name: "軽貨物事業", catch: "ラストワンマイルを、担う。",
+    partner: "Amazonオフィシャル配送パートナー",
+    lead: "宅配・企業配のラストワンマイルを、地域密着で確実に。100名超のドライバーと100台超の軽貨物車両で、札幌市内・近郊を安定稼働で配送します。",
+    features: [
+      ["01", "ラストワンマイル特化", "宅配・企業配の最終区間を、エリアを知り尽くしたドライバーが一つひとつ確実に届けます。"],
+      ["02", "安定稼働の体制", "100名超のドライバーと100台超の軽貨物車両、札幌圏4営業所の体制で、繁忙期の波動にも安定して対応します。"],
+      ["03", "安全運行の徹底", "日々の点呼・車両点検とドライバー研修で、無事故・無違反の配送品質を追求します。"]
+    ],
+    note: "宅配は Amazonオフィシャル配送パートナーとしての業務のほか、ヤマト運輸・佐川急便などの宅配案件も担当しています。",
+    flowTitle: "配送の1日の流れ",
+    flow: [
+      ["荷受け・積み込み", "拠点で荷物を受け取り、当日のルートに合わせて積み込みます。"],
+      ["仕分け・ルート確認", "エリアと時間帯指定を踏まえ、無理のない配達順を組み立てます。"],
+      ["配達", "一軒一軒、確実に。不在時の対応もルールに沿って丁寧に行います。"],
+      ["完了報告", "配達状況を報告し、翌日の稼働につなげます。"]
+    ],
+    area: {
+      lead: "札幌市内・近郊を中心に、北海道エリアの配送に対応しています。",
+      spots: [
+        ["東雁来拠点", "札幌市東区東雁来。軽貨物配送の主力拠点です。"],
+        ["輪厚拠点", "北広島市輪厚。札幌南部・近郊エリアをカバーします。"]
+      ]
+    }
+  },
+  ippan: {
+    parent: "運送", parentLead: "すべては、運ぶことから。",
+    name: "一般貨物事業", catch: "１トンバンからトラックまで、街の物流を担う。",
+    lead: "１トンバンから中型・大型、冷凍車まで車種を揃え、企業間物流に対応。スポット便から定期ルートまで、荷量と現場に合わせて柔軟にお引き受けします。",
+    features: [
+      ["01", "車種の幅広さ", "１トンバン・中型・大型・冷凍車まで10台超。荷物と現場に最適な車両を手配します。"],
+      ["02", "企業物流に対応", "食品・日用品などの企業間輸送、定温・冷凍輸送、定期ルート配送に対応します。"],
+      ["03", "運行管理体制", "選任した運行管理者のもと、労働時間と安全を管理した運行体制を敷いています。"]
+    ],
+    menu: [
+      ["定期ルート配送", "毎日・毎週の決まった輸送を、安定した体制で請け負います。"],
+      ["チャーター便", "車両1台を貸し切りで。荷物と行き先に合わせて車種を手配します。"],
+      ["スポット便", "急な荷物・単発の輸送に、空き車両の範囲で柔軟に対応します。"],
+      ["定温・冷凍輸送", "温度管理が必要な食品などの輸送に、冷凍車で対応します。"]
+    ],
+    flowTitle: "ご依頼から運行までの流れ",
+    flow: [
+      ["ご相談・お見積り", "荷物の内容・区間・頻度を伺い、最適な車種とお見積りをご提案します。"],
+      ["車両・ドライバー手配", "案件に合わせて車両とドライバーを手配し、運行計画を立てます。"],
+      ["運行", "運行管理者の管理のもと、安全第一で輸送します。"],
+      ["完了報告・継続改善", "運行結果を報告。定期案件は運用しながら改善を重ねます。"]
+    ]
+  },
+  /* ---- 暮らしサービス（兄弟2：fudosan / tsushin） ---- */
+  fudosan: {
+    parent: "暮らしサービス", parentLead: "暮らしを、まるごと。",
+    name: "不動産事業", catch: "働く人の、住まいを支える。",
+    lead: "賃貸の仲介・管理を中心に、働く人の「住まい」を支えます。運送・建設の現場で100名超が働く会社だからこそ、「勤務地とセットの住まい探し」に本気で向き合えます。自社の就業サポートと連携し、新生活の立ち上げまで一緒に支えます。",
+    features: [
+      ["01", "住まい探しのサポート", "勤務地に近い物件のご紹介から契約まで、わかりやすくサポートします。初めてのひとり暮らし・転居もご安心ください。"],
+      ["02", "就業との連携", "自社の採用・就業支援と連動し、入社と住まいの立ち上げを同時に。道外からの就業相談にも対応します。"],
+      ["03", "地域に根ざす", "札幌エリアの土地勘を活かし、通勤動線・買い物・冬の暮らしやすさまで考えたご提案をします。"]
+    ],
+    menu: [
+      ["賃貸仲介", "札幌市内・近郊の賃貸物件をご紹介。条件整理からご案内・契約まで一貫して対応します。"],
+      ["物件管理", "オーナー様の物件管理を代行。入居者対応・建物維持をきめ細かくサポートします。"],
+      ["従業員向け住まい支援", "当社で働くドライバー・スタッフの住まい探しを支援。入社と同時の新生活立ち上げに対応します。"],
+      ["売買・活用のご相談", "不動産の売買・活用のご相談も受け付けています。まずはお気軽にお問い合わせください。"]
+    ],
+    flowTitle: "ご入居までの流れ",
+    flow: [
+      ["ご相談", "ご希望の条件・勤務地・ご予算を伺います。オンラインでの相談も可能です。"],
+      ["物件のご紹介・内見", "条件に合う物件をご紹介し、実際にご案内します。"],
+      ["ご契約", "契約内容をわかりやすくご説明。初めての方もご安心ください。"],
+      ["新生活の立ち上げ", "引っ越し・通信の手続きまで、当社が一緒に支えます。"]
+    ]
+  },
+  tsushin: {
+    parent: "暮らしサービス", parentLead: "暮らしを、まるごと。",
+    name: "通信事業", catch: "スマホも回線も、ひとつの窓口で。",
+    lead: "スマートフォン・通信回線のご相談を、ひとつの窓口でまとめてご案内。プランも会社も乱立して複雑になりがちな通信まわりを、暮らしの目線でシンプルに整理します。引っ越し・就業と同じタイミングでの立ち上げが得意です。",
+    features: [
+      ["01", "ワンストップ窓口", "端末・回線・料金プランを横断して、いまの使い方に合う組み合わせをご提案します。"],
+      ["02", "暮らしとセットで", "住まい・就業の手続きと合わせて、通信の立ち上げまで一度に。新生活の初日からつながります。"],
+      ["03", "わかりやすい説明", "専門用語をかみくだいて、料金の内訳まで納得いただける形でご案内します。"]
+    ],
+    menu: [
+      ["スマートフォンのご相談", "端末・料金プランの見直しや乗り換えのご相談を承ります。"],
+      ["インターネット回線", "ご自宅の回線の新規契約・切り替えをご案内。引っ越しと同時の開通手配にも対応します。"],
+      ["乗り換え・見直し診断", "いまの契約内容を整理し、ムダのない構成へ。しつこい営業はしません。"],
+      ["法人・事業者の通信", "事業用の回線・端末のご相談も受け付けています。"]
+    ],
+    flowTitle: "ご相談から開通までの流れ",
+    flow: [
+      ["現状の整理", "いまお使いの端末・回線・料金を一緒に棚卸しします。"],
+      ["最適プランのご提案", "使い方に合う組み合わせを、料金の内訳までご説明します。"],
+      ["切り替え・開通", "お申し込みから開通まで手続きをサポート。新生活の初日からつながります。"]
+    ]
+  },
+  /* ---- 法人サービス（兄弟2：web / consul） ---- */
+  web: {
+    parent: "法人サービス", parentLead: "現場を知る会社の、事業支援。",
+    name: "WEB事業", catch: "制作から運用まで、ワンストップで。",
+    lead: "Webサイトの制作から公開後の運用・改善まで一気通貫。運送・不動産・通信など自社で複数の事業を回してきた「事業者の目線」で、見た目だけでなく成果につながるWebをご提案します。",
+    features: [
+      ["01", "制作〜運用を一括", "デザイン・開発から公開後の更新・改善まで、窓口ひとつで完結します。"],
+      ["02", "事業者目線", "自社で複数事業を運営してきた経験から、予算と実務に見合う現実的な施策を提案します。"],
+      ["03", "伴走型サポート", "作って終わりにせず、公開後の数字を見ながら一緒に改善を続けます。"]
+    ],
+    menu: [
+      ["コーポレートサイト制作", "会社の顔となるサイトを、情報設計から丁寧に。リニューアルのご相談も歓迎です。"],
+      ["採用・サービスサイト制作", "採用強化や新サービスの立ち上げに合わせたサイト・LPを制作します。"],
+      ["運用・保守", "公開後の更新作業・不具合対応・改善提案まで、継続的にサポートします。"],
+      ["ITなんでも相談", "ツール導入や業務のデジタル化など、Webまわりの困りごとを幅広くご相談いただけます。"]
+    ],
+    flowTitle: "制作の流れ",
+    flow: [
+      ["ヒアリング", "目的・ターゲット・いまの課題を伺い、進め方とお見積りをご提案します。"],
+      ["情報設計・デザイン", "何をどの順で見せるかの設計から、トーンに合うデザインへ。"],
+      ["制作・実装", "確認を挟みながら制作。文章のご相談も一緒に進められます。"],
+      ["公開・運用改善", "公開して終わりにせず、更新と改善を継続的にサポートします。"]
+    ],
+    worksLead: "掲載のご了承をいただいた実績の一部をご紹介します。",
+    works: [
+      ["こども・教育", "さんようこどもかん", "WEBサイト制作"],
+      ["福祉", "放課後等デイサービス さんさん", "WEBサイト制作"],
+      ["運送", "合同会社MERAISE", "WEBサイト制作"],
+      ["通信・配送", "合同会社BACH", "WEBサイト制作"]
+    ]
+  },
+  consul: {
+    parent: "法人サービス", parentLead: "現場を知る会社の、事業支援。",
+    name: "コンサルティング事業", catch: "現場目線の、経営支援。",
+    lead: "机上の理論ではなく、現場を回してきた実体験に基づく経営支援。運送・不動産・通信——自社で複数事業を立ち上げ、運営してきたからこそ言える「現実的な一手」を、伴走しながらご提案します。",
+    features: [
+      ["01", "現場を知る支援", "自社で運送・建設・生活サービスを運営してきた実務知見が土台です。評論ではなく実行の支援をします。"],
+      ["02", "立ち上げから改善まで", "新規事業の設計から、既存事業の収益改善・原価の見直しまで幅広く対応します。"],
+      ["03", "福祉領域の支援実績", "放課後等デイサービス「さんさん」の運営支援など、福祉領域の実績もあります。"]
+    ],
+    menu: [
+      ["新規事業の立ち上げ支援", "事業計画づくりから初期運営まで、立ち上げ期を実務レベルで伴走します。"],
+      ["収益改善・原価見直し", "現場のコスト構造を分解し、利益の残る事業への改善を支援します。"],
+      ["物流・現場オペレーション改善", "運送会社としての運営経験を活かし、配送・現場業務の効率化を支援します。"],
+      ["福祉事業の運営支援", "放課後等デイサービスなど、福祉領域の運営支援実績があります。"]
+    ],
+    flowTitle: "支援の進め方",
+    flow: [
+      ["現状分析", "数字と現場の両面から、事業のいまを一緒に把握します。"],
+      ["改善の設計", "打ち手を「できる順」に並べ、無理のない実行計画に落とします。"],
+      ["伴走・実行支援", "計画を出して終わりにせず、実行の現場まで伴走します。"]
+    ],
+    note: "<strong>放課後等デイサービス「さんさん」について：</strong>「さんさん」は当社の自社事業ではなく、コンサルティング事業部が運営を支援している事業です。ここでは支援実績のひとつとしてご紹介しています。"
+  }
+};
+
+(function () {
+  var depts = window.COMPLETE_DEPTS;
+  var params = new URLSearchParams(location.search);
+  var key = params.get("dept");
+  if (!depts[key]) key = "keika"; // 既定＝運送TOP相当
+  var d = depts[key];
+
+  // 同じ親タブの兄弟を抽出
+  var siblings = Object.keys(depts).filter(function (k) { return depts[k].parent === d.parent; });
+
+  document.title = d.name + "｜株式会社complete";
+  document.getElementById("bh-parent").textContent = d.parent + " ／ " + d.parentLead;
+  document.getElementById("bh-catch").textContent = d.catch;
+  document.getElementById("bh-lead").textContent = d.lead;
+  document.getElementById("bh-crumb").textContent = d.parent + " ／ " + d.name;
+  document.getElementById("bh-feat-title").textContent = d.name + "の特徴";
+  document.getElementById("bh-cta-title").textContent = d.name + "へのお問い合わせ。";
+
+  // 兄弟タブ
+  var sibWrap = document.getElementById("bh-siblings");
+  siblings.forEach(function (k) {
+    var a = document.createElement("a");
+    a.href = "business.html?dept=" + k;
+    a.textContent = depts[k].name;
+    if (k === key) a.className = "current";
+    sibWrap.appendChild(a);
+  });
+
+  // 特徴3つ
+  var featWrap = document.getElementById("bh-features");
+  d.features.forEach(function (f) {
+    var el = document.createElement("div");
+    el.className = "feature reveal";
+    el.innerHTML = '<span class="n">' + f[0] + '</span><h3>' + f[1] + '</h3><p>' + f[2] + '</p>';
+    featWrap.appendChild(el);
+  });
+
+  // サービスメニュー（menuを持つ事業部のみ）
+  if (d.menu && d.menu.length) {
+    document.getElementById("bh-menu-sec").style.display = "";
+    document.getElementById("bh-menu-title").textContent = d.name + "の取り扱いサービス";
+    var menuWrap = document.getElementById("bh-menu");
+    d.menu.forEach(function (m) {
+      var el = document.createElement("div");
+      el.className = "item reveal";
+      el.innerHTML = "<h4>" + m[0] + "</h4><p>" + m[1] + "</p>";
+      menuWrap.appendChild(el);
+    });
+  }
+
+  // 業務の流れ（flowを持つ事業部のみ・F-30）
+  var _ph={keika:'assets/img/band-keika.jpg',ippan:'assets/img/band-ippan.jpg',fudosan:'assets/img/band-fudosan.jpg',tsushin:'assets/img/band-tsushin.jpg',web:'assets/img/band-web.jpg',consul:'assets/img/band-consul.jpg'};
+  var _el=document.getElementById('bh-photo'); if(_el&&_ph[key]) _el.src=_ph[key];
+  var _hero=document.querySelector('.page-hero.has-photo');
+  if(_hero){ _hero.className='page-hero has-photo bizhero-'+key; }
+
+  if (d.flow && d.flow.length) {
+    document.getElementById("bh-flow-sec").style.display = "";
+    if (d.flowTitle) document.getElementById("bh-flow-title").textContent = d.flowTitle;
+    var flowWrap = document.getElementById("bh-flow");
+    if (d.flow.length === 3) flowWrap.className = "flow cols-3";
+    d.flow.forEach(function (s, i) {
+      var el = document.createElement("div");
+      el.className = "step reveal";
+      var _n = ('0' + (i + 1)).slice(-2);
+      var _pct = Math.round(((i + 1) / d.flow.length) * 100);
+      el.innerHTML = '<span class="fn">' + _n + '</span><h4>' + s[0] + '</h4><p>' + s[1] + '</p><span class="fprog"><i style="width:' + _pct + '%"></i></span>';
+      flowWrap.appendChild(el);
+    });
+  }
+
+  // 制作実績（worksを持つ事業部のみ）
+  if (d.works && d.works.length) {
+    document.getElementById("bh-works-sec").style.display = "";
+    if (d.worksLead) document.getElementById("bh-works-lead").textContent = d.worksLead;
+    var worksWrap = document.getElementById("bh-works");
+    d.works.forEach(function (w) {
+      var el = document.createElement("div");
+      el.className = "work reveal";
+      el.innerHTML = '<span class="cat">' + w[0] + '</span><h4>' + w[1] + '</h4><p>' + w[2] + '</p>';
+      worksWrap.appendChild(el);
+    });
+  }
+
+  // 対応エリア・拠点（areaを持つ事業部のみ）
+  if (d.area) {
+    document.getElementById("bh-area-sec").style.display = "";
+    document.getElementById("bh-area-lead").textContent = d.area.lead || "";
+    var areaWrap = document.getElementById("bh-area");
+    (d.area.spots || []).forEach(function (s) {
+      var el = document.createElement("div");
+      el.className = "item reveal";
+      el.innerHTML = "<h4>" + s[0] + "</h4><p>" + s[1] + "</p>";
+      areaWrap.appendChild(el);
+    });
+  }
+
+  // 取引先バッジ（軽貨物＝Amazonオフィシャル配送パートナー 等）
+  if (d.partner) { var pb = document.getElementById("bh-partner");
+    pb.innerHTML = '<span class="pb-mark" aria-hidden="true">\u2713</span><span class="pb-text">' + d.partner + '</span>';
+    pb.style.display = ""; }
+  // 事業部別の注記（軽貨物＝取引先／コンサル＝福祉さんさん）
+  if (d.note) { var nt = document.getElementById("bh-note"); nt.innerHTML = d.note; nt.style.display = ""; }
+})();
+</script>
+
+<script src="assets/js/main.js?v=20260806a"></script>
+<script src="assets/js/motion.js?v=20260806a"></script>
+<!-- 常設CTA（右下固定） -->
+<div class="float-cta">
+  <a class="fc-tel" href="tel:0113125710" aria-label="電話をかける"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+  <a href="contact.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>お問い合わせ</a>
+</div>
+</body>
+</html>

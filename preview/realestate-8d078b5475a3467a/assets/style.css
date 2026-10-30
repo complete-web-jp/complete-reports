@@ -1,0 +1,255 @@
+/* ゆきあかり不動産 共通スタイル（Claude Design キャンバス v5 を素のCSSへ展開・R08_2026_10_31） */
+:root{
+  --main:#1e6b45; --main-dark:#16352a; --accent:#e8650f; --accent-text:#c2410c; --accent-btn:#c2410c;
+  --ink:#1f2a24; --ink-2:#3f4f45; --ink-3:#4a5a50; --ink-4:#5a6a60;
+  --line:#dce7df; --line-2:#e3ebe5; --field:#c3d2c8;
+  --bg:#ffffff; --bg-soft:#f8faf9; --bg-hero:#eef6f1; --tag:#f6faf7;
+  --line-green:#06c755;
+  --wrap:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:'Noto Sans JP','Hiragino Sans','Hiragino Kaku Gothic ProN',sans-serif;color:var(--ink);background:var(--bg);line-height:1.75;font-size:15px}
+img,svg{max-width:100%}
+a{color:var(--main)} a:hover{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+.skip{position:absolute;left:-9999px;top:0;background:#fff;padding:8px 12px;z-index:100}
+.skip:focus{left:8px;top:8px}
+.notice{background:#fff4ea;color:#7a3a0a;font-size:12px;padding:6px 16px;text-align:center}
+[hidden]{display:none!important}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* 上の帯・ヘッダー */
+.topband{border-bottom:1px solid var(--line-2);font-size:12px;color:var(--ink-3)}
+.topband .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;padding-top:6px;padding-bottom:6px}
+.site-header{background:#fff;border-bottom:1px solid var(--line);position:relative;z-index:20}
+.site-header .bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding-top:14px;padding-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand-text{display:flex;flex-direction:column;line-height:1.25}
+.brand-name{font-family:'Zen Maru Gothic',sans-serif;font-size:22px;font-weight:700;letter-spacing:.04em;color:var(--main)}
+.brand-sub{font-size:11px;color:var(--ink-4)}
+.gnav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 16px;font-size:14px;font-weight:500}
+.gnav a{text-decoration:none}
+.gnav a[aria-current="page"]{font-weight:700;border-bottom:2px solid var(--main)}
+.htel{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.htel-num{display:flex;flex-direction:column;line-height:1.2}
+.htel-num small{font-size:11px;color:var(--ink-4)}
+.htel-num a{font-size:22px;font-weight:900;color:var(--main);text-decoration:none;font-variant-numeric:tabular-nums}
+.menu-btn{display:none;font:inherit;font-size:14px;font-weight:700;color:var(--main);background:#fff;border:2px solid var(--main);border-radius:6px;padding:8px 14px;min-height:44px;align-items:center;gap:8px;cursor:pointer}
+.mnav{display:none;border-top:1px solid var(--line);background:#fff}
+.mnav ul{list-style:none;margin:0;padding:4px 20px 12px}
+.mnav a{display:block;padding:12px 0;border-bottom:1px solid #eef3f0;text-decoration:none;font-weight:700}
+.mnav li:last-child a{border-bottom:0}
+
+/* ボタン */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:12px 18px;border-radius:6px;font:inherit;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;border:0}
+.btn-accent{background:var(--accent-btn);color:#fff} .btn-accent:hover{color:#fff;background:#a8380a}
+.btn-line{background:var(--line-green);color:#05301a} .btn-line:hover{color:#05301a;background:#05b04b}
+.btn-outline{background:#fff;color:var(--main);border:2px solid var(--main)} .btn-outline:hover{background:var(--bg-hero);color:var(--main)}
+.btn-block{width:100%;min-height:52px;font-size:16px;font-weight:900}
+
+/* 最初の画面 */
+.hero{background:var(--bg-hero);padding:40px 0 56px}
+.hero .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:24px 40px}
+.hero-copy{flex:1 1 420px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.hero-pill{align-self:flex-start;font-size:13px;font-weight:700;color:var(--main);background:#fff;border:1px solid #cfe2d6;border-radius:999px;padding:4px 14px}
+.hero h1{margin:0;font-size:42px;font-weight:900;color:var(--main-dark);line-height:1.35}
+.hero p{margin:0;color:var(--ink-2);font-size:16px;font-weight:500}
+.hero-art{flex:1 1 420px;min-width:0;display:flex;justify-content:center}
+.hero-art svg{width:100%;max-width:520px;height:auto}
+strong.zero{color:var(--accent-text)}
+
+/* 検索 */
+.search-wrap{margin-top:-32px;position:relative}
+.search{background:#fff;border-radius:10px;box-shadow:0 6px 24px rgba(15,35,25,.10);border:1px solid var(--line-2);padding:24px;display:flex;flex-direction:column;gap:16px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tab{font:inherit;font-size:14px;font-weight:700;padding:10px 18px;min-height:44px;border-radius:6px;cursor:pointer;border:2px solid var(--main);background:#fff;color:var(--main)}
+.tab[aria-selected="true"],.tab[aria-pressed="true"]{background:var(--main);color:#fff}
+.chip{font:inherit;font-size:13px;font-weight:700;padding:8px 14px;min-height:44px;border-radius:999px;cursor:pointer;border:2px solid var(--main);background:#fff;color:var(--main)}
+.chip[aria-pressed="true"]{background:var(--main);color:#fff}
+.field{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:700;color:var(--ink-3)}
+.field-label{display:block}
+.field input,.field select,.field textarea{font:inherit;font-weight:400;font-size:16px;padding:10px;border:1px solid var(--field);border-radius:6px;background:#fff;color:var(--ink);min-height:44px;width:100%}
+.field textarea{resize:vertical;min-height:110px}
+.req{color:var(--accent-text);margin-left:4px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tags-label{font-size:12px;font-weight:700;color:var(--ink-3)}
+.tag{font-size:13px;text-decoration:none;border:1px solid var(--field);border-radius:999px;padding:4px 12px;color:var(--ink);background:var(--tag)}
+.align-end{display:flex;align-items:flex-end}
+
+/* グリッド */
+.g2,.g3,.g4,.g5{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.gap12{gap:12px}
+
+/* セクション */
+.sec{padding:56px 0}
+.sec-soft{background:var(--bg-soft)}
+.sec-tight{padding-top:0}
+.stack{display:flex;flex-direction:column;gap:24px}
+.h2{margin:0;font-size:26px;font-weight:900;color:var(--main)}
+.h2 small{font-size:13px;font-weight:500;color:var(--ink-4);margin-left:8px}
+.h2-line{border-bottom:3px solid var(--main);padding-bottom:10px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:8px}
+.center{text-align:center}
+.lead{margin:0;font-size:14px;color:var(--ink-3)}
+.small{margin:0;font-size:12px;color:var(--ink-4)}
+.card{background:#fff;border:1px solid var(--line-2);border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card h3{margin:0;font-size:17px;font-weight:900}
+.card ul{margin:0;padding-left:1.2em;font-size:14px;display:flex;flex-direction:column;gap:6px}
+.card p{margin:0;font-size:14px;color:var(--ink-3)}
+.point{font-size:13px;font-weight:900;color:var(--accent-text)}
+
+/* 安心のしるし */
+.badges{padding:28px 0;border-bottom:1px solid var(--line)}
+.badge{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border:1px solid var(--line-2);border-radius:8px}
+.badge-mark{width:34px;height:34px;flex:none;border-radius:50%;background:var(--main);display:flex;align-items:center;justify-content:center}
+.badge b{display:block;font-size:14px;font-weight:900;line-height:1.4}
+.badge span{display:block;font-size:12px;color:var(--ink-4);line-height:1.4}
+.badge .badge-mark{display:flex}
+
+/* 物件カード */
+.pcard{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.pcard:hover{color:var(--ink);border-color:var(--main)}
+.pcard-img{aspect-ratio:4/3;background:#dde8e0;display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-size:12px;position:relative}
+.pcard-new{position:absolute;top:8px;left:8px;background:var(--accent-btn);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:3px}
+.pcard-img .sample{position:absolute;top:8px;right:8px;background:#fff;color:var(--ink);font-size:11px;padding:2px 8px;border-radius:3px}
+.pcard-body{padding:14px;display:flex;flex-direction:column;gap:6px}
+.pcard-meta{font-size:12px;color:var(--ink-4)}
+.pcard-name{font-size:15px;font-weight:700}
+.pcard-rent{font-size:22px;font-weight:900;color:var(--accent-text);font-variant-numeric:tabular-nums}
+.pcard-rent small{font-size:12px;color:var(--ink-4);font-weight:400;margin-left:6px}
+.pcard-line{font-size:12px;color:var(--ink-3)}
+.feat{display:flex;flex-wrap:wrap;gap:4px}
+.feat span{font-size:11px;color:var(--main);border:1px solid var(--main);border-radius:3px;padding:0 6px}
+
+/* 特集 */
+.fcard{text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-top:3px solid var(--main);border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:4px}
+.fcard b{font-size:16px;font-weight:900;color:var(--main)}
+.fcard span{font-size:12px;color:var(--ink-4)}
+
+/* 表 */
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;padding:6px 12px 6px 0;border-bottom:1px solid var(--line);white-space:nowrap;vertical-align:top}
+.tbl td{padding:6px 0;border-bottom:1px solid var(--line);color:var(--ink-3)}
+.tbl tr:last-child th,.tbl tr:last-child td{border-bottom:0}
+.scroll-x{overflow-x:auto}
+
+/* 初期費用 */
+.cost-out{background:var(--bg-soft);border:2px solid var(--main);border-radius:8px;padding:24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.cost-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px}
+.cost-head b{font-size:15px;font-weight:900}
+.cost-total{font-size:32px;font-weight:900;color:var(--main);font-variant-numeric:tabular-nums}
+.cost-tbl{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+.cost-tbl th{text-align:left;font-weight:500;padding:6px 12px 6px 0;border-bottom:1px solid var(--line)}
+.cost-tbl th small{display:block;font-size:11px;color:var(--ink-4);font-weight:400}
+.cost-tbl td{text-align:right;padding:6px 0;border-bottom:1px solid var(--line);white-space:nowrap;font-weight:700}
+.cost-saved{margin:0;font-size:14px;font-weight:700;color:var(--accent-text)}
+
+/* 流れ */
+.steps{list-style:none;margin:0;padding:0}
+.step{background:#fff;border:1px solid var(--line-2);border-top:4px solid var(--main);border-radius:8px;padding:20px 16px;display:flex;flex-direction:column;gap:8px}
+.step-no{font-size:12px;font-weight:900;color:var(--accent-text)}
+.step b{font-size:16px;font-weight:900}
+.step span{font-size:13px;color:var(--ink-3)}
+
+/* Q&A */
+.qa-wrap{max-width:900px;margin:0 auto}
+.qa-group{display:flex;flex-direction:column;gap:10px}
+.qa-group h3{margin:0;font-size:16px;font-weight:900;color:var(--main)}
+.qa{border:1px solid var(--line);border-radius:8px;background:#fff}
+.qa summary{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;font-weight:700;font-size:15px;cursor:pointer;list-style:none}
+.qa summary::-webkit-details-marker{display:none}
+.qa-q,.qa-a{flex:none;width:28px;height:28px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900}
+.qa-q{background:var(--main)} .qa-a{background:var(--accent-text)}
+.qa-text{flex:1;min-width:0;padding-top:2px}
+.qa-mark{flex:none;color:var(--accent-text);font-size:22px;line-height:1;transition:transform .2s}
+.qa[open] .qa-mark{transform:rotate(45deg)}
+.qa-body{display:flex;gap:12px;padding:0 18px 18px}
+.qa-body p{margin:0;font-size:14px;color:var(--ink-2);padding-top:2px}
+
+/* スタッフ */
+.staff{display:flex;gap:16px;align-items:center}
+.staff-photo{width:88px;height:88px;flex:none;border-radius:50%;background:#dde8e0;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ink-3)}
+.staff-role{font-size:12px;color:var(--main);font-weight:700}
+.staff-name{font-size:18px;font-weight:900}
+
+/* 店舗・問い合わせ */
+.shop-photo{height:200px;background:#dde8e0;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-size:12px}
+.dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 18px;font-size:14px}
+.dl dt{color:var(--ink-4)} .dl dd{margin:0}
+.contact-box{background:#fff;border:2px solid var(--main);border-radius:10px;padding:28px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.contact-box h2{margin:0;font-size:24px;font-weight:900;color:var(--main)}
+.tel-box{background:var(--bg-soft);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:2px}
+.tel-box small{font-size:12px;color:var(--ink-4)}
+.tel-box a{font-size:26px;font-weight:900;color:var(--main);text-decoration:none;font-variant-numeric:tabular-nums}
+.cform{display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line);padding-top:16px}
+.cform-title{font-size:15px;font-weight:900}
+.agree{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--ink-2)}
+.agree input{width:20px;height:20px;margin:2px 0 0;flex:none}
+.form-error{margin:0;font-size:13px;font-weight:700;color:#b42318}
+.form-done{display:none;background:var(--bg-hero);border-radius:8px;padding:18px}
+.form-done.show{display:block}
+.form-done h3{margin:0 0 6px;font-size:17px;color:var(--main)}
+.form-done p{margin:0;font-size:14px}
+
+/* オーナー帯 */
+.owner-band{border:2px solid var(--main);border-radius:10px;padding:24px 28px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.owner-band b{display:block;font-size:18px;font-weight:900;color:var(--main)}
+.owner-band span{font-size:14px;color:var(--ink-3)}
+
+/* パンくず・下層見出し */
+.crumb{font-size:12px;color:var(--ink-4);padding-top:12px;padding-bottom:12px}
+.crumb ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px}
+.crumb li+li::before{content:"›";margin:0 6px;color:var(--ink-4)}
+.page-head{background:var(--bg-hero);padding:32px 0}
+.page-head h1{margin:0;font-size:30px;font-weight:900;color:var(--main-dark)}
+.page-head p{margin:6px 0 0;color:var(--ink-2)}
+
+/* 物件詳細 */
+.gallery{display:grid;grid-template-columns:2fr 1fr;gap:8px}
+.gallery div{background:#dde8e0;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-size:12px;min-height:120px}
+.gallery .main{grid-row:span 2;aspect-ratio:4/3}
+.detail-side{position:sticky;top:16px;align-self:start}
+
+/* フッター */
+.site-footer{background:var(--bg-soft);color:var(--ink-3);border-top:3px solid var(--main);padding:32px 0;font-size:12px}
+.site-footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+.site-footer .brand-name{font-size:18px}
+.foot-info{display:flex;flex-direction:column;gap:4px}
+.foot-links{display:flex;flex-wrap:wrap;gap:6px 18px;align-items:flex-end}
+.foot-links a{color:var(--ink-3)}
+
+/* スマホの固定ボタン */
+.mbar{display:none;position:sticky;bottom:0;z-index:30;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(15,35,25,.08)}
+.mbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:900}
+.mbar .tel{border:2px solid var(--main);color:var(--main);background:#fff}
+.mbar .line{background:var(--line-green);color:#05301a}
+.mbar .visit{background:var(--accent-btn);color:#fff}
+
+@media (min-width:1100px){.site-header .bar{flex-wrap:nowrap}.htel-num small{display:none}.brand,.htel{flex:none;flex-wrap:nowrap;white-space:nowrap}.gnav ul{flex-wrap:nowrap;white-space:nowrap;gap:4px 15px}}
+@media (max-width:960px){
+  .g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery{grid-template-columns:1fr}
+  .gallery .main{grid-row:auto}
+  .detail-side{position:static}
+}
+@media (max-width:680px){
+  .g2,.g3,.g4,.g5{grid-template-columns:minmax(0,1fr)}
+  .hero h1{font-size:28px}
+  .hero{padding:28px 0 48px}
+  .h2{font-size:22px}
+  .topband,.gnav,.htel{display:none}
+  .menu-btn{display:inline-flex}
+  .brand-name{font-size:19px}
+  .brand svg{width:38px;height:38px}
+  .site-header .bar{flex-wrap:nowrap;gap:10px}
+  .mnav.open{display:block}
+  .mbar{display:grid}
+  .contact-box{padding:20px}
+  .owner-band{padding:20px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.qa-mark{transition:none}}

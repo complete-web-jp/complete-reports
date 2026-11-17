@@ -5,7 +5,7 @@
   /* ── 問い合わせの受け口（Googleフォーム） ──
      ACTION を空にすると送信せず「準備中」と表示する（安全装置）。 */
   var FORM = {
-    // 〈作業中〉フォーム_ゆきあかり不動産_問い合わせ_R08_2026_10_31（12_不動産事業部）→ 回答は同じ棚の〈作業中〉回答_… へ
+    // 〈作業中〉フォーム_complete不動産_問い合わせ_R08_2026_10_31（12_不動産事業部）→ 回答は同じ棚の〈作業中〉回答_… へ
     ACTION: 'https://docs.google.com/forms/d/e/1FAIpQLSduFwmLY-Kol0kDLrl5ZEsPt_YrlJh8sLFCq8MjRdizDGQ2XA/formResponse',
     ENTRY: {
       kind: 'entry.1126712273', // 種類
